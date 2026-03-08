@@ -7,6 +7,7 @@
     <style>
       :root {
         --inventory-width: clamp(320px, 36vw, 560px);
+        --character-size: clamp(95px, 11vw, 145px);
       }
 
       * {
@@ -47,16 +48,16 @@
       }
 
       #risko {
-        width: clamp(85px, 10vw, 130px);
+        width: var(--character-size);
         left: 4vw;
         bottom: 4vh;
-        transition: left 0.9s ease, top 0.9s ease, bottom 0.9s ease;
+        transition: left 1.8s linear, top 1.8s linear, bottom 1.8s linear;
         pointer-events: none;
         z-index: 3;
       }
 
       #gaston {
-        width: clamp(95px, 11vw, 145px);
+        width: var(--character-size);
         left: 50%;
         top: 66%;
         transform: translate(-50%, -50%);

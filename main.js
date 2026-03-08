@@ -33,16 +33,50 @@ addFallbackOnError("bate-item", "bate.png no encontrado");
 function moveRiskoTo(targetX, targetY) {
   const sceneRect = scene.getBoundingClientRect();
   const riskoRect = risko.getBoundingClientRect();
+  const gastonRect = gaston.getBoundingClientRect();
+  const currentCenterX = riskoRect.left + riskoRect.width / 2;
+  const gap = 12;
 
   // Place risko's feet at the target point to keep interactions grounded.
-  const clampedX = Math.min(
+  let clampedX = Math.min(
     sceneRect.width - riskoRect.width,
     Math.max(0, targetX - sceneRect.left - riskoRect.width * 0.5)
   );
-  const clampedY = Math.min(
+  let clampedY = Math.min(
     sceneRect.height - riskoRect.height,
     Math.max(0, targetY - sceneRect.top - riskoRect.height)
   );
+
+  const candidate = {
+    left: clampedX + sceneRect.left,
+    right: clampedX + sceneRect.left + riskoRect.width,
+    top: clampedY + sceneRect.top,
+    bottom: clampedY + sceneRect.top + riskoRect.height
+  };
+
+  const overlapsGaston = !(
+    candidate.right <= gastonRect.left ||
+    candidate.left >= gastonRect.right ||
+    candidate.bottom <= gastonRect.top ||
+    candidate.top >= gastonRect.bottom
+  );
+
+  if (overlapsGaston) {
+    const goLeft = currentCenterX < gastonRect.left + gastonRect.width / 2;
+    const sideX = goLeft
+      ? gastonRect.left - riskoRect.width / 2 - gap
+      : gastonRect.right + riskoRect.width / 2 + gap;
+    const feetY = gastonRect.bottom;
+
+    clampedX = Math.min(
+      sceneRect.width - riskoRect.width,
+      Math.max(0, sideX - sceneRect.left - riskoRect.width * 0.5)
+    );
+    clampedY = Math.min(
+      sceneRect.height - riskoRect.height,
+      Math.max(0, feetY - sceneRect.top - riskoRect.height)
+    );
+  }
 
   risko.style.left = `${clampedX}px`;
   risko.style.top = `${clampedY}px`;
@@ -51,8 +85,15 @@ function moveRiskoTo(targetX, targetY) {
 
 function moveRiskoInFrontOf(el) {
   const targetRect = el.getBoundingClientRect();
-  const x = targetRect.left + targetRect.width / 2;
-  const y = targetRect.bottom + 14;
+  const riskoRect = risko.getBoundingClientRect();
+  const gap = 12;
+  const riskoCenter = riskoRect.left + riskoRect.width / 2;
+  const targetCenter = targetRect.left + targetRect.width / 2;
+
+  const x = riskoCenter < targetCenter
+    ? targetRect.left - riskoRect.width / 2 - gap
+    : targetRect.right + riskoRect.width / 2 + gap;
+  const y = targetRect.bottom;
   moveRiskoTo(x, y);
 }
 
