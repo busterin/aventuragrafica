@@ -266,7 +266,4 @@ window.addEventListener("resize", () => {
     showSpeechAt(speechAnchor, speech.textContent);
   }
 });
-
-window.addEventListener("load", () => {
-  layoutScene();
-});
+layoutScene();
