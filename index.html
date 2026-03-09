@@ -51,7 +51,7 @@
         height: var(--character-height);
         width: auto;
         left: 4vw;
-        bottom: 4vh;
+        bottom: 0;
         transition: left 1.4s linear, top 1.4s linear, bottom 1.4s linear, transform 0.12s linear;
         transform-origin: center bottom;
         pointer-events: none;
@@ -62,8 +62,8 @@
         height: var(--character-height);
         width: auto;
         left: 50%;
-        top: 66%;
-        transform: translate(-50%, -50%);
+        bottom: 0;
+        transform: translateX(-50%);
       }
 
       #anillo-world {
@@ -134,7 +134,7 @@
         max-height: 70%;
         object-fit: contain;
         object-position: center;
-        transform: translate(8%, 14%);
+        transform: translate(12%, 34%);
         cursor: grab;
         display: none;
       }
