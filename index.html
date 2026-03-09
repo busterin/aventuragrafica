@@ -7,7 +7,11 @@
     <style>
       :root {
         --inventory-width: clamp(300px, 33vw, 520px);
-        --character-height: clamp(280px, 40vh, 470px);
+        --character-height: 300px;
+        --guardian-left: 820px;
+        --gaston-left: 1100px;
+        --anillo-left: 960px;
+        --anillo-top: 860px;
       }
 
       * {
@@ -52,7 +56,7 @@
       #guardian {
         height: var(--character-height);
         width: auto;
-        left: 20vw;
+        left: var(--guardian-left);
         bottom: 0;
         transition: left 1.4s linear, transform 0.12s linear;
         transform-origin: center bottom;
@@ -63,15 +67,15 @@
       #gaston {
         height: var(--character-height);
         width: auto;
-        left: 62%;
+        left: var(--gaston-left);
         bottom: 0;
         transform: translateX(-50%);
       }
 
       #anillo-world {
-        width: clamp(46px, 5.5vw, 72px);
-        left: 50%;
-        top: 90%;
+        width: 56px;
+        left: var(--anillo-left);
+        top: var(--anillo-top);
         transform: translate(-50%, -50%);
       }
 

@@ -223,14 +223,7 @@ speech.addEventListener("click", () => {
 });
 
 window.addEventListener("resize", () => {
-  const guardianRect = guardian.getBoundingClientRect();
-  moveGuardianTo(guardianRect.left + guardianRect.width / 2);
   if (speechAnchor && speech.style.display !== "none") {
     showSpeechAt(speechAnchor, speech.textContent);
   }
-});
-
-window.addEventListener("load", () => {
-  const guardianRect = guardian.getBoundingClientRect();
-  moveGuardianTo(guardianRect.left + guardianRect.width / 2);
 });
