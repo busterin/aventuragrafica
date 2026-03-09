@@ -65,7 +65,9 @@ function removeDragProxy() {
 function setGuardianFacing(targetX) {
   const guardianRect = guardian.getBoundingClientRect();
   const currentCenterX = guardianRect.left + guardianRect.width / 2;
-  guardian.style.transform = targetX >= currentCenterX ? "scaleX(1)" : "scaleX(-1)";
+  const delta = targetX - currentCenterX;
+  if (Math.abs(delta) < 2) return;
+  guardian.style.transform = delta > 0 ? "scaleX(1)" : "scaleX(-1)";
 }
 
 function getWalkLineTop(sceneRect, guardianRect) {
@@ -78,8 +80,6 @@ function moveGuardianTo(targetX) {
   const guardianRect = guardian.getBoundingClientRect();
   const gastonRect = gaston.getBoundingClientRect();
   const gastonCenterX = gastonRect.left + gastonRect.width / 2;
-
-  setGuardianFacing(targetX);
 
   let clampedX = Math.min(
     sceneRect.width - guardianRect.width,
@@ -102,6 +102,9 @@ function moveGuardianTo(targetX) {
       Math.max(0, sideX - sceneRect.left - guardianRect.width * 0.5)
     );
   }
+
+  const finalCenterX = clampedX + sceneRect.left + guardianRect.width / 2;
+  setGuardianFacing(finalCenterX);
 
   guardian.style.left = `${clampedX}px`;
   guardian.style.top = `${clampedY}px`;
