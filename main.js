@@ -14,6 +14,7 @@ const VALID_DROP_ZONES = [
 
 let hasAnillo = false;
 let speechAnchor = null;
+let dragProxy = null;
 
 function addFallbackOnError(id, label) {
   const el = document.getElementById(id);
@@ -31,6 +32,35 @@ function addFallbackOnError(id, label) {
 addFallbackOnError("background", "fondo1.png no encontrado");
 addFallbackOnError("anillo-world", "anillo.png no encontrado");
 addFallbackOnError("anillo-item", "anillo.png no encontrado");
+
+function createDragProxy(sourceEl, clientX, clientY) {
+  removeDragProxy();
+  dragProxy = sourceEl.cloneNode(true);
+  dragProxy.removeAttribute("id");
+  dragProxy.style.position = "fixed";
+  dragProxy.style.left = `${clientX}px`;
+  dragProxy.style.top = `${clientY}px`;
+  dragProxy.style.width = "44px";
+  dragProxy.style.height = "44px";
+  dragProxy.style.objectFit = "contain";
+  dragProxy.style.transform = "translate(-50%, -50%)";
+  dragProxy.style.pointerEvents = "none";
+  dragProxy.style.zIndex = "9999";
+  dragProxy.style.opacity = "0.95";
+  document.body.appendChild(dragProxy);
+}
+
+function moveDragProxy(clientX, clientY) {
+  if (!dragProxy) return;
+  dragProxy.style.left = `${clientX}px`;
+  dragProxy.style.top = `${clientY}px`;
+}
+
+function removeDragProxy() {
+  if (!dragProxy) return;
+  dragProxy.remove();
+  dragProxy = null;
+}
 
 function setGuardianFacing(targetX) {
   const guardianRect = guardian.getBoundingClientRect();
@@ -163,16 +193,26 @@ anilloWorld.addEventListener("click", () => {
 anilloItem.addEventListener("dragstart", (event) => {
   event.dataTransfer.setData("text/plain", "anillo");
   event.dataTransfer.effectAllowed = "move";
+  const transparent = new Image();
+  transparent.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+  event.dataTransfer.setDragImage(transparent, 0, 0);
+  createDragProxy(anilloItem, event.clientX, event.clientY);
+});
+
+anilloItem.addEventListener("dragend", () => {
+  removeDragProxy();
 });
 
 scene.addEventListener("dragover", (event) => {
   if (!hasAnillo) return;
   event.preventDefault();
+  moveDragProxy(event.clientX, event.clientY);
 });
 
 scene.addEventListener("drop", (event) => {
   if (!hasAnillo) return;
   event.preventDefault();
+  removeDragProxy();
 
   const { clientX, clientY } = event;
   const validDrop = isValidDrop(clientX, clientY);
