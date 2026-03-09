@@ -69,12 +69,8 @@ function setGuardianFacing(targetX) {
 }
 
 function getWalkLineTop(sceneRect, guardianRect) {
-  const gastonRect = gaston.getBoundingClientRect();
-  const walkLineFeetY = gastonRect.bottom;
-  return Math.min(
-    sceneRect.height - guardianRect.height,
-    Math.max(0, walkLineFeetY - sceneRect.top - guardianRect.height)
-  );
+  // Lock movement to scene floor so image proportions never shift the walk line.
+  return Math.max(0, sceneRect.height - guardianRect.height);
 }
 
 function moveGuardianTo(targetX) {
