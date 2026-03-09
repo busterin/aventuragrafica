@@ -47,7 +47,7 @@
         cursor: pointer;
       }
 
-      #risko {
+      #guardian {
         width: var(--character-size);
         left: 4vw;
         bottom: 4vh;
@@ -64,7 +64,7 @@
         transform: translate(-50%, -50%);
       }
 
-      #bate-world {
+      #anillo-world {
         width: clamp(80px, 10vw, 130px);
         right: 6vw;
         top: 70%;
@@ -130,7 +130,7 @@
       #slot-2 { left: 24.3%; }
       #slot-3 { left: 38.4%; }
 
-      #bate-item {
+      #anillo-item {
         width: 84%;
         max-height: 84%;
         object-fit: contain;
@@ -139,7 +139,7 @@
         display: none;
       }
 
-      #bate-item:active {
+      #anillo-item:active {
         cursor: grabbing;
       }
 
@@ -169,9 +169,9 @@
     <div id="scene" aria-label="Escena">
       <img id="background" src="images/fondo1.png" alt="Fondo" />
 
-      <img id="risko" class="entity" src="images/risko.png" alt="Risko" />
+      <img id="guardian" class="entity" src="images/guardian.png" alt="Guardian" />
       <img id="gaston" class="entity" src="images/gaston.png" alt="Gaston" />
-      <img id="bate-world" class="entity" src="images/bate.png" alt="Bate" />
+      <img id="anillo-world" class="entity" src="images/anillo.png" alt="Anillo" />
 
       <div id="speech">PRUEBA</div>
 
@@ -180,7 +180,7 @@
         <div id="slot-1" class="inventory-slot"></div>
         <div id="slot-2" class="inventory-slot"></div>
         <div id="slot-3" class="inventory-slot"></div>
-        <img id="bate-item" class="inventory-item" src="images/bate.png" alt="Bate en inventario" draggable="true" />
+        <img id="anillo-item" class="inventory-item" src="images/anillo.png" alt="Anillo en inventario" draggable="true" />
       </div>
     </div>
 

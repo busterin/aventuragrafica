@@ -1,8 +1,8 @@
 const scene = document.getElementById("scene");
-const risko = document.getElementById("risko");
+const guardian = document.getElementById("guardian");
 const gaston = document.getElementById("gaston");
-const bateWorld = document.getElementById("bate-world");
-const bateItem = document.getElementById("bate-item");
+const anilloWorld = document.getElementById("anillo-world");
+const anilloItem = document.getElementById("anillo-item");
 const speech = document.getElementById("speech");
 const inventory = document.getElementById("inventory");
 const inventorySlots = [...document.querySelectorAll(".inventory-slot")];
@@ -12,7 +12,7 @@ const VALID_DROP_ZONES = [
   { x1: 0.45, y1: 0.33, x2: 0.58, y2: 0.58 }
 ];
 
-let hasBate = false;
+let hasAnillo = false;
 let speechAnchor = null;
 
 function addFallbackOnError(id, label) {
@@ -29,69 +29,69 @@ function addFallbackOnError(id, label) {
 }
 
 addFallbackOnError("background", "fondo1.png no encontrado");
-addFallbackOnError("bate-world", "bate.png no encontrado");
-addFallbackOnError("bate-item", "bate.png no encontrado");
+addFallbackOnError("anillo-world", "anillo.png no encontrado");
+addFallbackOnError("anillo-item", "anillo.png no encontrado");
 
-function setRiskoFacing(targetX) {
-  const riskoRect = risko.getBoundingClientRect();
-  const currentCenterX = riskoRect.left + riskoRect.width / 2;
-  risko.style.transform = targetX >= currentCenterX ? "scaleX(1)" : "scaleX(-1)";
+function setGuardianFacing(targetX) {
+  const guardianRect = guardian.getBoundingClientRect();
+  const currentCenterX = guardianRect.left + guardianRect.width / 2;
+  guardian.style.transform = targetX >= currentCenterX ? "scaleX(1)" : "scaleX(-1)";
 }
 
-function getWalkLineTop(sceneRect, riskoRect) {
+function getWalkLineTop(sceneRect, guardianRect) {
   const gastonRect = gaston.getBoundingClientRect();
   const walkLineFeetY = gastonRect.bottom;
   return Math.min(
-    sceneRect.height - riskoRect.height,
-    Math.max(0, walkLineFeetY - sceneRect.top - riskoRect.height)
+    sceneRect.height - guardianRect.height,
+    Math.max(0, walkLineFeetY - sceneRect.top - guardianRect.height)
   );
 }
 
-function moveRiskoTo(targetX) {
+function moveGuardianTo(targetX) {
   const sceneRect = scene.getBoundingClientRect();
-  const riskoRect = risko.getBoundingClientRect();
+  const guardianRect = guardian.getBoundingClientRect();
   const gastonRect = gaston.getBoundingClientRect();
   const gastonCenterX = gastonRect.left + gastonRect.width / 2;
 
-  setRiskoFacing(targetX);
+  setGuardianFacing(targetX);
 
   let clampedX = Math.min(
-    sceneRect.width - riskoRect.width,
-    Math.max(0, targetX - sceneRect.left - riskoRect.width * 0.5)
+    sceneRect.width - guardianRect.width,
+    Math.max(0, targetX - sceneRect.left - guardianRect.width * 0.5)
   );
-  const clampedY = getWalkLineTop(sceneRect, riskoRect);
+  const clampedY = getWalkLineTop(sceneRect, guardianRect);
 
   const candidateLeft = clampedX + sceneRect.left;
-  const candidateRight = candidateLeft + riskoRect.width;
+  const candidateRight = candidateLeft + guardianRect.width;
   const blockedLeft = gastonRect.left - GASTON_GAP;
   const blockedRight = gastonRect.right + GASTON_GAP;
   const overlapsGastonHorizontally = candidateRight > blockedLeft && candidateLeft < blockedRight;
 
   if (overlapsGastonHorizontally) {
     const sideX = targetX < gastonCenterX
-      ? gastonRect.left - riskoRect.width / 2 - GASTON_GAP
-      : gastonRect.right + riskoRect.width / 2 + GASTON_GAP;
+      ? gastonRect.left - guardianRect.width / 2 - GASTON_GAP
+      : gastonRect.right + guardianRect.width / 2 + GASTON_GAP;
     clampedX = Math.min(
-      sceneRect.width - riskoRect.width,
-      Math.max(0, sideX - sceneRect.left - riskoRect.width * 0.5)
+      sceneRect.width - guardianRect.width,
+      Math.max(0, sideX - sceneRect.left - guardianRect.width * 0.5)
     );
   }
 
-  risko.style.left = `${clampedX}px`;
-  risko.style.top = `${clampedY}px`;
-  risko.style.bottom = "auto";
+  guardian.style.left = `${clampedX}px`;
+  guardian.style.top = `${clampedY}px`;
+  guardian.style.bottom = "auto";
 }
 
-function moveRiskoInFrontOf(el) {
+function moveGuardianInFrontOf(el) {
   const targetRect = el.getBoundingClientRect();
-  const riskoRect = risko.getBoundingClientRect();
-  const riskoCenter = riskoRect.left + riskoRect.width / 2;
+  const guardianRect = guardian.getBoundingClientRect();
+  const guardianCenter = guardianRect.left + guardianRect.width / 2;
   const targetCenter = targetRect.left + targetRect.width / 2;
 
-  const x = riskoCenter < targetCenter
-    ? targetRect.left - riskoRect.width / 2 - GASTON_GAP
-    : targetRect.right + riskoRect.width / 2 + GASTON_GAP;
-  moveRiskoTo(x);
+  const x = guardianCenter < targetCenter
+    ? targetRect.left - guardianRect.width / 2 - GASTON_GAP
+    : targetRect.right + guardianRect.width / 2 + GASTON_GAP;
+  moveGuardianTo(x);
 }
 
 function showSpeechAt(el, text) {
@@ -105,12 +105,12 @@ function showSpeechAt(el, text) {
   speech.style.display = "block";
 }
 
-function pickupBate() {
-  hasBate = true;
-  bateWorld.style.display = "none";
+function pickupAnillo() {
+  hasAnillo = true;
+  anilloWorld.style.display = "none";
   const firstEmptySlot = inventorySlots.find((slot) => !slot.querySelector(".inventory-item"));
-  if (firstEmptySlot) firstEmptySlot.appendChild(bateItem);
-  bateItem.style.display = "block";
+  if (firstEmptySlot) firstEmptySlot.appendChild(anilloItem);
+  anilloItem.style.display = "block";
 }
 
 function buzz() {
@@ -149,33 +149,33 @@ function isValidDrop(clientX, clientY) {
 }
 
 gaston.addEventListener("click", () => {
-  moveRiskoInFrontOf(gaston);
+  moveGuardianInFrontOf(gaston);
   showSpeechAt(gaston, "PRUEBA");
 });
 
-bateWorld.addEventListener("click", () => {
-  moveRiskoInFrontOf(bateWorld);
+anilloWorld.addEventListener("click", () => {
+  moveGuardianInFrontOf(anilloWorld);
   window.setTimeout(() => {
-    pickupBate();
+    pickupAnillo();
   }, 900);
 });
 
-bateItem.addEventListener("dragstart", (event) => {
-  event.dataTransfer.setData("text/plain", "bate");
+anilloItem.addEventListener("dragstart", (event) => {
+  event.dataTransfer.setData("text/plain", "anillo");
   event.dataTransfer.effectAllowed = "move";
 });
 
 scene.addEventListener("dragover", (event) => {
-  if (!hasBate) return;
+  if (!hasAnillo) return;
   event.preventDefault();
 });
 
 scene.addEventListener("drop", (event) => {
-  if (!hasBate) return;
+  if (!hasAnillo) return;
   event.preventDefault();
 
   const { clientX, clientY } = event;
-  moveRiskoTo(clientX);
+  moveGuardianTo(clientX);
 
   if (!isValidDrop(clientX, clientY)) {
     buzz();
@@ -188,14 +188,14 @@ speech.addEventListener("click", () => {
 });
 
 window.addEventListener("resize", () => {
-  const riskoRect = risko.getBoundingClientRect();
-  moveRiskoTo(riskoRect.left + riskoRect.width / 2);
+  const guardianRect = guardian.getBoundingClientRect();
+  moveGuardianTo(guardianRect.left + guardianRect.width / 2);
   if (speechAnchor && speech.style.display !== "none") {
     showSpeechAt(speechAnchor, speech.textContent);
   }
 });
 
 window.addEventListener("load", () => {
-  const riskoRect = risko.getBoundingClientRect();
-  moveRiskoTo(riskoRect.left + riskoRect.width / 2);
+  const guardianRect = guardian.getBoundingClientRect();
+  moveGuardianTo(guardianRect.left + guardianRect.width / 2);
 });
