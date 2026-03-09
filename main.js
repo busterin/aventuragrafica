@@ -1,5 +1,4 @@
 const scene = document.getElementById("scene");
-const sceneViewport = document.getElementById("scene-viewport");
 const guardian = document.getElementById("guardian");
 const gaston = document.getElementById("gaston");
 const anilloWorld = document.getElementById("anillo-world");
@@ -16,8 +15,6 @@ const VALID_DROP_ZONES = [
 let hasAnillo = false;
 let speechAnchor = null;
 let dragProxy = null;
-const BASE_WIDTH = 1328;
-const BASE_HEIGHT = 800;
 
 function addFallbackOnError(id, label) {
   const el = document.getElementById(id);
@@ -63,17 +60,6 @@ function removeDragProxy() {
   if (!dragProxy) return;
   dragProxy.remove();
   dragProxy = null;
-}
-
-function layoutScene() {
-  const vw = sceneViewport.clientWidth;
-  const vh = sceneViewport.clientHeight;
-  // Contain mode: keep all fixed-position elements visible on any screen size.
-  const scale = Math.min(vw / BASE_WIDTH, vh / BASE_HEIGHT);
-  // Keep origin fixed so element coordinates never "drift" with recentering.
-  const offsetX = 0;
-  const offsetY = 0;
-  scene.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
 }
 
 function setGuardianFacing(targetX) {
@@ -237,12 +223,7 @@ speech.addEventListener("click", () => {
 });
 
 window.addEventListener("resize", () => {
-  layoutScene();
   if (speechAnchor && speech.style.display !== "none") {
     showSpeechAt(speechAnchor, speech.textContent);
   }
-});
-
-window.addEventListener("load", () => {
-  layoutScene();
 });
