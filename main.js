@@ -70,8 +70,9 @@ function layoutScene() {
   const vh = sceneViewport.clientHeight;
   // Contain mode: keep all fixed-position elements visible on any screen size.
   const scale = Math.min(vw / BASE_WIDTH, vh / BASE_HEIGHT);
-  const offsetX = (vw - BASE_WIDTH * scale) / 2;
-  const offsetY = (vh - BASE_HEIGHT * scale) / 2;
+  // Keep origin fixed so element coordinates never "drift" with recentering.
+  const offsetX = 0;
+  const offsetY = 0;
   scene.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
 }
 
