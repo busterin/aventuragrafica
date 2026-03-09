@@ -6,8 +6,8 @@
     <title>Aventura Grafica - Prueba</title>
     <style>
       :root {
-        --inventory-width: clamp(320px, 36vw, 560px);
-        --character-size: clamp(95px, 11vw, 145px);
+        --inventory-width: clamp(300px, 33vw, 520px);
+        --character-size: clamp(170px, 20vw, 290px);
       }
 
       * {
@@ -65,8 +65,8 @@
       }
 
       #anillo-world {
-        width: clamp(80px, 10vw, 130px);
-        right: 6vw;
+        width: clamp(46px, 5.5vw, 72px);
+        right: 11vw;
         top: 70%;
         transform: translateY(-50%);
       }
@@ -100,7 +100,7 @@
       #inventory {
         position: absolute;
         width: var(--inventory-width);
-        aspect-ratio: 1078 / 221;
+        aspect-ratio: 1062 / 493;
         right: 18px;
         bottom: 18px;
         z-index: 5;
@@ -109,7 +109,7 @@
       #inventory-bg {
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        object-fit: contain;
         display: block;
       }
 
