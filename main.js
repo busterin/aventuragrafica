@@ -11,6 +11,7 @@ const itemModal = document.getElementById("item-modal");
 const itemModalContent = document.getElementById("item-modal-content");
 const itemModalClose = document.getElementById("item-modal-close");
 const GASTON_GAP = 12;
+const GASTON_TEXT = "¡Hola, guardiana!";
 
 const VALID_DROP_ZONES = [
   { x1: 0.45, y1: 0.33, x2: 0.58, y2: 0.58 }
@@ -236,7 +237,7 @@ gaston.addEventListener("click", () => {
   pendingSpeechForGaston = true;
   moveGuardianInFrontOf(gaston);
   if (isGuardianBeside(gaston)) {
-    showSpeechAt(gaston, "PRUEBA");
+    showSpeechAt(gaston, GASTON_TEXT);
     pendingSpeechForGaston = false;
   }
 });
@@ -297,7 +298,7 @@ guardian.addEventListener("transitionend", (event) => {
   if (event.propertyName !== "left") return;
   if (!pendingSpeechForGaston) return;
   if (!isGuardianBeside(gaston)) return;
-  showSpeechAt(gaston, "PRUEBA");
+  showSpeechAt(gaston, GASTON_TEXT);
   pendingSpeechForGaston = false;
 });
 
