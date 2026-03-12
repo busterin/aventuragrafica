@@ -6,12 +6,17 @@
     <title>Aventura Grafica - Prueba</title>
     <style>
       :root {
-        --inventory-width: 28.61%;
+        --inventory-width: 380px;
         --character-height: 37.5%;
+        --character-bottom: 34px;
         --guardian-left: 32.38%;
         --gaston-left: 64.76%;
+        --tele-left: 76.5%;
+        --ardillaguardiana-left: 79%;
+        --bici-left-fondo2: 65%;
+        --bici-left-fondo3: 60%;
         --anillo-left: 50%;
-        --anillo-top: 73.75%;
+        --anillo-top: 74.75%;
       }
 
       * {
@@ -68,39 +73,113 @@
         height: var(--character-height);
         width: auto;
         left: var(--guardian-left);
-        bottom: 0;
+        bottom: var(--character-bottom);
         transition: left 1.4s linear, transform 0.12s linear;
         transform-origin: center bottom;
         pointer-events: none;
-        z-index: 3;
+        z-index: 8;
       }
 
       #gaston {
         height: var(--character-height);
         width: auto;
         left: var(--gaston-left);
-        bottom: 0;
+        bottom: var(--character-bottom);
         transform: translateX(-50%);
+        animation: gaston-breathe 2.8s ease-in-out infinite;
+        will-change: filter;
+      }
+
+      #tele {
+        height: 22%;
+        width: auto;
+        left: var(--tele-left);
+        bottom: 150px;
+        transform: translateX(-50%);
+        z-index: 4;
+      }
+
+      #ardillaguardiana {
+        height: 15%;
+        width: auto;
+        left: var(--ardillaguardiana-left);
+        bottom: var(--character-bottom);
+        transform: translateX(-330%);
+        z-index: 7;
+        pointer-events: auto;
       }
 
       #anillo-world {
-        width: 2.56%;
+        width: 1.56%;
         left: var(--anillo-left);
         top: var(--anillo-top);
         transform: translate(-50%, -50%);
       }
 
+      #bici {
+        height: 26%;
+        width: auto;
+        left: var(--bici-left-fondo2);
+        bottom: 10px;
+        transform: translateX(-50%);
+        z-index: 7;
+        pointer-events: auto;
+        display: none;
+      }
+
       #speech {
         position: absolute;
-        z-index: 4;
+        z-index: 12;
         display: none;
         padding: 12px 16px;
-        max-width: 190px;
+        width: 300px;
         background: #fff;
         color: #111;
         border: 3px solid #111;
         border-radius: 20px;
         font-weight: 700;
+      }
+
+      #speech-text {
+        margin: 0 0 10px;
+        line-height: 1.28;
+      }
+
+      #speech-options {
+        display: none;
+        margin: 0 0 10px;
+      }
+
+      .speech-option-btn {
+        display: block;
+        width: 100%;
+        margin: 0 0 8px;
+        border: 2px solid #111;
+        border-radius: 10px;
+        background: #f5f1e8;
+        color: #111;
+        padding: 6px 8px;
+        font-size: 13px;
+        font-weight: 700;
+        text-align: left;
+        cursor: pointer;
+      }
+
+      .speech-option-btn:last-child {
+        margin-bottom: 0;
+      }
+
+      #speech-next-btn {
+        display: block;
+        margin: 0 auto;
+        border: 2px solid #111;
+        border-radius: 10px;
+        background: #f5f1e8;
+        color: #111;
+        padding: 4px 10px;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
       }
 
       #speech::after {
@@ -120,8 +199,8 @@
         position: absolute;
         width: var(--inventory-width);
         aspect-ratio: 1062 / 493;
-        right: 1.36%;
-        bottom: 2.25%;
+        right: 18px;
+        bottom: 18px;
         z-index: 5;
       }
 
@@ -298,6 +377,15 @@
         75% { transform: translateX(4px) rotate(3deg); }
         100% { transform: translateX(0); }
       }
+
+      @keyframes gaston-breathe {
+        0%, 100% {
+          filter: brightness(1);
+        }
+        50% {
+          filter: brightness(1.08);
+        }
+      }
     </style>
   </head>
   <body>
@@ -307,9 +395,16 @@
 
         <img id="guardian" class="entity" src="images/guardian.png" alt="Guardian" />
         <img id="gaston" class="entity" src="images/gaston.png" alt="Gaston" />
+        <img id="tele" class="entity" src="images/tele.png" alt="Tele" />
+        <img id="ardillaguardiana" class="entity" src="images/ardillaguardiana.png" alt="Ardilla Guardiana" />
+        <img id="bici" class="entity" src="images/bici.png" alt="Bici" />
         <img id="anillo-world" class="entity" src="images/anillo.png" alt="Anillo" />
 
-        <div id="speech">¡Hola, guardiana!</div>
+        <div id="speech">
+          <p id="speech-text">¡Hola, guardiana!</p>
+          <div id="speech-options"></div>
+          <button id="speech-next-btn" type="button">Continuar</button>
+        </div>
 
         <div id="inventory" aria-label="Inventario">
           <img id="inventory-bg" src="images/inventario.png" alt="Inventario" />
