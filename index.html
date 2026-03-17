@@ -65,6 +65,7 @@
           <img id="brocheinversion-item" class="inventory-item" src="images/brocheinversion.png" alt="Broche inversion en inventario" draggable="true" />
           <img id="brocheinteres-item" class="inventory-item" src="images/brocheinteres.png" alt="Broche interes en inventario" draggable="true" />
         </div>
+        <img id="mobile-hint-btn" src="images/movil.png" alt="Móvil de pistas" />
 
         <button id="next-arrow" type="button" aria-label="Ir a fondo 2"></button>
         <button id="prev-arrow" type="button" aria-label="Volver a fondo 1"></button>
@@ -76,6 +77,18 @@
         <img id="item-modal-image" src="images/anillo.png" alt="Anillo ampliado" />
         <p id="item-modal-text">Un anillo de origen desconocido.<br>Parece ser de gran valor.</p>
         <button id="item-modal-close" type="button">Cerrar</button>
+      </div>
+    </div>
+
+    <div id="hint-modal" aria-hidden="true">
+      <div id="hint-modal-content" role="dialog" aria-modal="true" aria-label="Pistas de la base">
+        <img id="hint-base-image" src="images/base.png" alt="Base de los Guardianes" />
+        <p id="hint-modal-text">Aquí la base de los Guardianes ¿Necesitas una pista para poder avanzar en tu aventura?</p>
+        <div id="hint-modal-options">
+          <button id="hint-yes-btn" type="button">Si</button>
+          <button id="hint-no-btn" type="button">No</button>
+        </div>
+        <button id="hint-close-btn" type="button">Cerrar</button>
       </div>
     </div>
 

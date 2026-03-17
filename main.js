@@ -46,9 +46,19 @@ const itemModalContent = document.getElementById("item-modal-content");
 const itemModalClose = document.getElementById("item-modal-close");
 const itemModalImage = document.getElementById("item-modal-image");
 const itemModalText = document.getElementById("item-modal-text");
+const mobileHintBtn = document.getElementById("mobile-hint-btn");
+const hintModal = document.getElementById("hint-modal");
+const hintModalContent = document.getElementById("hint-modal-content");
+const hintBaseImage = document.getElementById("hint-base-image");
+const hintModalText = document.getElementById("hint-modal-text");
+const hintModalOptions = document.getElementById("hint-modal-options");
+const hintYesBtn = document.getElementById("hint-yes-btn");
+const hintNoBtn = document.getElementById("hint-no-btn");
+const hintCloseBtn = document.getElementById("hint-close-btn");
 const endingOverlay = document.getElementById("ending-overlay");
 const endingWebBtn = document.getElementById("ending-web-btn");
 const GASTON_GAP = 12;
+const ARDILLA_DIALOGUE_GAP = 4;
 const GUARDIAN_IDLE_SRC = "images/guardian.png";
 const GUARDIAN_WALK_FRAMES = [
   "images/guardian2.png",
@@ -70,14 +80,14 @@ const GASTON_DIALOGUE = [
   "Debemos ser los primeros en lograr entrar para hacernos con la victoria. ¡Un reto digno de los Guardianes del Tesoro!"
 ];
 const GASTON_FINAL_DIALOGUE = [
-  "¡Buen trabajo, guardianes! Habéis finalizado la Competición Financiera antes que nadie. ¡Buen trabajo! Os esperamos en la Competición del año que viene."
+  "¡Buen trabajo, guardianes! Habéis finalizado la Competición Financiera antes que nadie. Os esperamos en la Competición del año que viene."
 ];
 const ARDILLA_GUARDIANA_DIALOGUE = {
   prompt: "¿Necesitas información?",
   options: [
     {
       label: "¿Que es un recibo (de la luz, del gas...)?",
-      response: "Gemini ha dicho: Un recibo es el documento oficial donde una empresa detalla el consumo que realizaste de un servicio durante un periodo específico y el dinero total que debes pagar antes de una fecha límite."
+      response: "Un recibo es el documento oficial donde una empresa detalla el consumo que realizaste de un servicio durante un periodo específico y el dinero total que debes pagar antes de una fecha límite."
     },
     {
       label: "¿Que son los intereses?",
@@ -97,6 +107,14 @@ const TELE_DIALOGUE = [
 const TELE_CORRECT_CODE = "1031";
 const TELE_SUCCESS_DIALOGUE = ["Se ha abierto un compartimento donde se ocultaba una llave y una moneda."];
 const TELE_FAIL_DIALOGUE = ["No ha pasado nada."];
+const HINT_MODAL_PROMPT_TEXT = "Aquí la base de los Guardianes ¿Necesitas una pista para poder avanzar en tu aventura?";
+const HINTS_BY_FONDO = {
+  fondo1: "Estás en el punto de partida. Aquí se esconde un valioso objeto y una terminal que te pide un código. Para descifrar dicho código tendrás que ir a otro lugar y el tiempo la solución te dará.",
+  fondo2: "Una alegre vendedora está deseando comerciar contigo. ¿No la has visto? Pulsa en los puestos del mercado. Si le das un objeto de valor, te dará algo que necesitas. ¿No has encontrado nada valioso en la localización de inicio?",
+  fondo3: "¡Bonito parque! Aquí se ocultan dos objetos que necesitarás en tu aventura. También se oculta una pista necesaría para la terminal del punto de inicio.",
+  fondo4: "¡Pocas pistas te puedo dar aquí! Necesitas abrir esa puerta de la izquierda. Tienes que conseguir una llave que, cómo ya habrás imaginado, no se encuentra aquí.",
+  fondo5: "¡Te encuentras en la sala del tesoro! Estás cerca de acabar. En una de las estanterías se esconde un objeto que necesitas y en la otra tienes que usar otro objeto, que deberías haber conseguido antes. Al usarlo, obtendrás otro nuevo. ¡Cuantos objetos, que lío!\nLa luz de esta sala es muy especial, quizás eso te permita leer textos ocultos ¿Tienes algún documento?\nY para acabar te encontrarás con el panel final. Tienes cuatro objetos para cuatro huecos. ¿Y cuál es el orden? Lee las descripciones de los objetos y lo descubrirás.\n¡Buena suerte!"
+};
 const TELE_INPUT_BUBBLE_OFFSET = 75;
 const TELE_RESULT_BUBBLE_OFFSET = -20;
 const FONDO2_HOTSPOT_DIALOGUE = [
@@ -276,6 +294,96 @@ let pendingTerminalSuccessAnchor = null;
 let pendingBrocheinversionFromFondo5Right = false;
 let pendingPanelCompletionHeroLine = false;
 let pendingEndingAfterGastonDialogue = false;
+let hintModalMode = "prompt";
+let confettiCanvas = null;
+let confettiContext = null;
+let confettiParticles = [];
+let confettiAnimationId = null;
+let confettiEndAt = 0;
+
+function resizeConfettiCanvas() {
+  if (!confettiCanvas) return;
+  confettiCanvas.width = window.innerWidth;
+  confettiCanvas.height = window.innerHeight;
+}
+
+function stopConfettiCelebration() {
+  if (confettiAnimationId !== null) {
+    window.cancelAnimationFrame(confettiAnimationId);
+    confettiAnimationId = null;
+  }
+  confettiParticles = [];
+  confettiContext = null;
+  if (confettiCanvas) {
+    confettiCanvas.remove();
+    confettiCanvas = null;
+  }
+}
+
+function startConfettiCelebration() {
+  stopConfettiCelebration();
+  confettiCanvas = document.createElement("canvas");
+  confettiCanvas.setAttribute("aria-hidden", "true");
+  confettiCanvas.style.position = "fixed";
+  confettiCanvas.style.inset = "0";
+  confettiCanvas.style.pointerEvents = "none";
+  confettiCanvas.style.zIndex = "25";
+  document.body.appendChild(confettiCanvas);
+  resizeConfettiCanvas();
+  confettiContext = confettiCanvas.getContext("2d");
+  if (!confettiContext) {
+    stopConfettiCelebration();
+    return;
+  }
+
+  const colors = ["#ffd23f", "#4dabf7", "#ff6b6b", "#51cf66", "#f783ac", "#845ef7"];
+  const pieceCount = 190;
+  confettiParticles = Array.from({ length: pieceCount }, () => ({
+    x: Math.random() * confettiCanvas.width,
+    y: -Math.random() * confettiCanvas.height * 0.9,
+    w: 5 + Math.random() * 7,
+    h: 8 + Math.random() * 10,
+    vx: -1.1 + Math.random() * 2.2,
+    vy: 2.4 + Math.random() * 3.8,
+    rot: Math.random() * Math.PI * 2,
+    rotSpeed: -0.18 + Math.random() * 0.36,
+    color: colors[Math.floor(Math.random() * colors.length)]
+  }));
+  confettiEndAt = performance.now() + 4300;
+
+  const animate = (now) => {
+    if (!confettiContext || !confettiCanvas) return;
+    const fade = now > confettiEndAt
+      ? Math.max(0, 1 - (now - confettiEndAt) / 900)
+      : 1;
+    if (fade <= 0) {
+      stopConfettiCelebration();
+      return;
+    }
+    confettiContext.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+    confettiContext.globalAlpha = fade;
+    for (const p of confettiParticles) {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.rot += p.rotSpeed;
+      if (p.y > confettiCanvas.height + 18) {
+        if (now <= confettiEndAt) {
+          p.y = -22;
+          p.x = Math.random() * confettiCanvas.width;
+        }
+      }
+      confettiContext.save();
+      confettiContext.translate(p.x, p.y);
+      confettiContext.rotate(p.rot);
+      confettiContext.fillStyle = p.color;
+      confettiContext.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      confettiContext.restore();
+    }
+    confettiContext.globalAlpha = 1;
+    confettiAnimationId = window.requestAnimationFrame(animate);
+  };
+  confettiAnimationId = window.requestAnimationFrame(animate);
+}
 const TRANSPARENT_DRAG_IMAGE = new Image();
 TRANSPARENT_DRAG_IMAGE.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
 const BASE_WIDTH = 1328;
@@ -370,6 +478,8 @@ addFallbackOnError("moneda-item", "moneda.png no encontrado");
 addFallbackOnError("tarjeta-item", "tarjeta.png no encontrado");
 addFallbackOnError("brocheinversion-item", "brocheinversion.png no encontrado");
 addFallbackOnError("brocheinteres-item", "brocheinteres.png no encontrado");
+addFallbackOnError("mobile-hint-btn", "movil.png no encontrado");
+addFallbackOnError("hint-base-image", "base.png no encontrado");
 addFallbackOnError("guardianes-logo", "guardianes.png no encontrado");
 addFallbackOnError("abanca-logo", "abanca.png no encontrado");
 
@@ -632,15 +742,15 @@ function moveGuardianTo(targetWorldX, avoidGaston = true) {
   guardian.style.bottom = INITIAL_GUARDIAN_BOTTOM;
 }
 
-function moveGuardianInFrontOf(el, avoidGaston = true) {
+function moveGuardianInFrontOf(el, avoidGaston = true, gap = GASTON_GAP) {
   const targetRect = getWorldRect(el);
   const guardianWidth = guardian.offsetWidth;
   const guardianCenter = guardian.offsetLeft + guardianWidth / 2;
   const targetCenter = targetRect.left + targetRect.width / 2;
 
   const x = guardianCenter < targetCenter
-    ? targetRect.left - guardianWidth / 2 - GASTON_GAP
-    : targetRect.right + guardianWidth / 2 + GASTON_GAP;
+    ? targetRect.left - guardianWidth / 2 - gap
+    : targetRect.right + guardianWidth / 2 + gap;
   moveGuardianTo(x, avoidGaston);
 }
 
@@ -815,12 +925,13 @@ function placeGastonAtFondo5LeftHotspotRight() {
   );
   gaston.style.left = `${(desiredCenterX / BASE_WIDTH) * 100}%`;
   gaston.style.bottom = INITIAL_GUARDIAN_BOTTOM;
-  gaston.style.transform = "translateX(-50%)";
+  gaston.style.transform = "translateX(-50%) scaleX(-1)";
 }
 
 function showEndingOverlay() {
   if (!endingOverlay || hasTriggeredEnding) return;
   hasTriggeredEnding = true;
+  stopConfettiCelebration();
   closeSpeech();
   hidePanelOverlay();
   if (nextArrow) {
@@ -842,15 +953,13 @@ function startGastonFinalSequence() {
     placeGastonAtFondo5LeftHotspotRight();
     gaston.style.display = "block";
   }
-  if (guardian && fondo5HotspotCenter) {
+  if (guardian && gaston) {
     const guardianRect = getWorldRect(guardian);
-    const centerRect = getWorldRect(fondo5HotspotCenter);
+    const gastonRect = getWorldRect(gaston);
     const guardianCenterX = guardianRect.left + guardianRect.width * 0.5;
-    const centerHotspotCenterX = centerRect.left + centerRect.width * 0.5;
-    if (guardianCenterX < centerHotspotCenterX) {
-      guardian.style.transform = "scaleX(1)";
-    } else if (gaston) {
-      faceGuardianToward(gaston);
+    const gastonCenterX = gastonRect.left + gastonRect.width * 0.5;
+    if (gastonCenterX < guardianCenterX) {
+      guardian.style.transform = "scaleX(-1)";
     }
   }
   if (!gaston) {
@@ -858,13 +967,14 @@ function startGastonFinalSequence() {
     return;
   }
   pendingEndingAfterGastonDialogue = true;
+  startConfettiCelebration();
   startDialogue(gaston, GASTON_FINAL_DIALOGUE);
 }
 
 function startPanelCompletionSequence() {
   hidePanelOverlay();
   pendingPanelCompletionHeroLine = true;
-  startDialogue(guardian, ["¡Lo he conseguido!"]);
+  startDialogue(guardian, ["¡Lo hemos conseguido!"]);
 }
 
 function completeVendedoraTrade() {
@@ -955,6 +1065,44 @@ function isInFondo5() {
   if (!background) return false;
   const src = background.getAttribute("src") || background.src || "";
   return src.includes("images/fondo5.png");
+}
+
+function getCurrentFondoKey() {
+  if (isInFondo5()) return "fondo5";
+  if (isInFondo4()) return "fondo4";
+  if (isInFondo3()) return "fondo3";
+  if (isInFondo2()) return "fondo2";
+  return "fondo1";
+}
+
+function openHintModalPrompt() {
+  if (!hintModal || !hintModalText || !hintModalOptions || !hintCloseBtn) return;
+  hintModalMode = "prompt";
+  hintModalText.textContent = HINT_MODAL_PROMPT_TEXT;
+  hintModalOptions.style.display = "flex";
+  hintCloseBtn.style.display = "none";
+  hintModal.classList.add("open");
+  hintModal.setAttribute("aria-hidden", "false");
+}
+
+function showHintForCurrentFondo() {
+  if (!hintModalText || !hintModalOptions || !hintCloseBtn) return;
+  hintModalMode = "hint";
+  const fondoKey = getCurrentFondoKey();
+  const hintText = HINTS_BY_FONDO[fondoKey] || "PRUEBA";
+  hintModalText.textContent = hintText;
+  hintModalOptions.style.display = "none";
+  hintCloseBtn.style.display = "block";
+}
+
+function closeHintModal() {
+  if (!hintModal || !hintModalText || !hintModalOptions || !hintCloseBtn) return;
+  hintModal.classList.remove("open");
+  hintModal.setAttribute("aria-hidden", "true");
+  hintModalMode = "prompt";
+  hintModalText.textContent = HINT_MODAL_PROMPT_TEXT;
+  hintModalOptions.style.display = "flex";
+  hintCloseBtn.style.display = "none";
 }
 
 function startBiciTravelDialogue() {
@@ -1727,7 +1875,7 @@ if (ardillaGuardiana) {
     pendingSpeechForGaston = false;
     pendingSpeechForBici = false;
     pendingSpeechForTele = false;
-    moveGuardianInFrontOf(ardillaGuardiana, false);
+    moveGuardianInFrontOf(ardillaGuardiana, false, ARDILLA_DIALOGUE_GAP);
     if (isGuardianBeside(ardillaGuardiana)) {
       faceGuardianToward(ardillaGuardiana);
       faceArdillaTowardGuardian();
@@ -2311,6 +2459,44 @@ if (itemModalContent) {
   });
 }
 
+if (mobileHintBtn) {
+  mobileHintBtn.addEventListener("click", () => {
+    openHintModalPrompt();
+  });
+}
+
+if (hintYesBtn) {
+  hintYesBtn.addEventListener("click", () => {
+    showHintForCurrentFondo();
+  });
+}
+
+if (hintNoBtn) {
+  hintNoBtn.addEventListener("click", () => {
+    closeHintModal();
+  });
+}
+
+if (hintCloseBtn) {
+  hintCloseBtn.addEventListener("click", () => {
+    closeHintModal();
+  });
+}
+
+if (hintModal) {
+  hintModal.addEventListener("click", (event) => {
+    if (event.target === hintModal) {
+      closeHintModal();
+    }
+  });
+}
+
+if (hintModalContent) {
+  hintModalContent.addEventListener("click", (event) => {
+    event.stopPropagation();
+  });
+}
+
 if (endingWebBtn) {
   endingWebBtn.addEventListener("click", () => {
     window.open("https://guardianesdeltesoro.afundacion.org", "_blank", "noopener,noreferrer");
@@ -2319,6 +2505,7 @@ if (endingWebBtn) {
 
 window.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
+    closeHintModal();
     closeItemModal();
     return;
   }
@@ -2347,6 +2534,7 @@ window.addEventListener("pointerdown", (event) => {
 
 window.addEventListener("resize", () => {
   layoutScene();
+  resizeConfettiCanvas();
   if (speechAnchor && speech.style.display !== "none") {
     positionSpeechAt(speechAnchor, activeDialogue?.speechExtraTop || 0);
   }
