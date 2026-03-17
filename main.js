@@ -8,23 +8,37 @@ const ardillaGuardiana = document.getElementById("ardillaguardiana");
 const bici = document.getElementById("bici");
 const vendedora = document.getElementById("vendedora");
 const brebaje = document.getElementById("brebaje");
+const monedaWorld = document.getElementById("moneda-world");
+const tarjetaWorld = document.getElementById("tarjeta-world");
+const brocheinversionWorld = document.getElementById("brocheinversion-world");
+const brocheinteresWorld = document.getElementById("brocheinteres-world");
 const fondo2HotspotLeft = document.getElementById("fondo2-hotspot-left");
 const fondo3HotspotLeft = document.getElementById("fondo3-hotspot-left");
 const fondo3Hotspot = document.getElementById("fondo3-hotspot");
 const fondo4HotspotLeftBottom = document.getElementById("fondo4-hotspot-left-bottom");
 const fondo5HotspotLeft = document.getElementById("fondo5-hotspot-left");
 const fondo5HotspotCenter = document.getElementById("fondo5-hotspot-center");
+const fondo5HotspotRight = document.getElementById("fondo5-hotspot-right");
 const anilloWorld = document.getElementById("anillo-world");
 const anilloItem = document.getElementById("anillo-item");
 const facturaItem = document.getElementById("factura-item");
 const llaveItem = document.getElementById("llave-item");
 const brebajeItem = document.getElementById("brebaje-item");
+const monedaItem = document.getElementById("moneda-item");
+const tarjetaItem = document.getElementById("tarjeta-item");
+const brocheinversionItem = document.getElementById("brocheinversion-item");
+const brocheinteresItem = document.getElementById("brocheinteres-item");
 const nextArrow = document.getElementById("next-arrow");
 const prevArrow = document.getElementById("prev-arrow");
 const speech = document.getElementById("speech");
 const speechText = document.getElementById("speech-text");
 const speechOptions = document.getElementById("speech-options");
 const speechNextBtn = document.getElementById("speech-next-btn");
+const panelOverlay = document.getElementById("panel-overlay");
+const panelA = document.getElementById("panel-a");
+const panelB = document.getElementById("panel-b");
+const panelC = document.getElementById("panel-c");
+const panelD = document.getElementById("panel-d");
 const inventory = document.getElementById("inventory");
 const inventorySlots = [...document.querySelectorAll(".inventory-slot")];
 const itemModal = document.getElementById("item-modal");
@@ -32,6 +46,8 @@ const itemModalContent = document.getElementById("item-modal-content");
 const itemModalClose = document.getElementById("item-modal-close");
 const itemModalImage = document.getElementById("item-modal-image");
 const itemModalText = document.getElementById("item-modal-text");
+const endingOverlay = document.getElementById("ending-overlay");
+const endingWebBtn = document.getElementById("ending-web-btn");
 const GASTON_GAP = 12;
 const GUARDIAN_IDLE_SRC = "images/guardian.png";
 const GUARDIAN_WALK_FRAMES = [
@@ -47,21 +63,29 @@ const DEFAULT_SPEECH_NEXT_LABEL = "Continuar";
 const TRAVEL_SPEECH_NEXT_LABEL = "Viajar";
 const ENTER_SPEECH_NEXT_LABEL = "Entrar";
 const TERMINAL_SPEECH_NEXT_LABEL = "Introducir número";
+const SPEECH_BASELINE_OFFSET_PX = 8;
 const GASTON_DIALOGUE = [
   "¡Hola, guardiana! Muchas gracias por acudir. Hoy es la Competición Financiera, un juego muy famoso en la ciudad de Aurópolis.",
   "El objetivo es recorrer esta zona delimitada de la ciudad donde encontrarás distintos objetos como una factura o una llave, que os irán guiando hasta encontrar una sala oculta, la sala del tesoro.",
   "Debemos ser los primeros en lograr entrar para hacernos con la victoria. ¡Un reto digno de los Guardianes del Tesoro!"
 ];
+const GASTON_FINAL_DIALOGUE = [
+  "¡Buen trabajo, guardianes! Habéis finalizado la Competición Financiera antes que nadie. ¡Buen trabajo! Os esperamos en la Competición del año que viene."
+];
 const ARDILLA_GUARDIANA_DIALOGUE = {
   prompt: "¿Necesitas información?",
   options: [
     {
-      label: "¿Que es una factura?",
-      response: "Es el comprobante oficial de que se ha realizado una compra o una venta. Su función principal es servir como prueba legal del intercambio y asegurar que se paguen los impuestos correspondientes."
+      label: "¿Que es un recibo (de la luz, del gas...)?",
+      response: "Gemini ha dicho: Un recibo es el documento oficial donde una empresa detalla el consumo que realizaste de un servicio durante un periodo específico y el dinero total que debes pagar antes de una fecha límite."
     },
     {
-      label: "¿Que es un ticket?",
-      response: "A diferencia de la factura, el ticket es más sencillo: no suele incluir tus datos personales, solo lo que compraste y el precio. Sirve como justificante de pago para cambios o devoluciones rápidas, pero no tiene el mismo peso legal o fiscal que una factura completa."
+      label: "¿Que son los intereses?",
+      response: "Es el coste que se paga por utilizar dinero ajeno o la ganancia que se recibe por prestarlo o invertirlo. Se define como el precio del tiempo y del riesgo, calculado habitualmente como un porcentaje del capital original que determina cuánto crece una deuda o un ahorro en un periodo determinado."
+    },
+    {
+      label: "¿Que es una inversión?",
+      response: "Invertir es emplear hoy tu dinero en un activo (como acciones, negocios o propiedades) con la expectativa de obtener un beneficio o ganancia en el futuro, aceptando siempre un nivel de riesgo."
     }
   ]
 };
@@ -71,10 +95,10 @@ const TELE_DIALOGUE = [
   "Es una terminal de juego de la Competición Financiera.\nMuestra la silueta de un reloj y pide introducir un número para continuar."
 ];
 const TELE_CORRECT_CODE = "1031";
-const TELE_SUCCESS_DIALOGUE = ["Se ha abierto un compartimento donde se ocultaba una llave"];
+const TELE_SUCCESS_DIALOGUE = ["Se ha abierto un compartimento donde se ocultaba una llave y una moneda."];
 const TELE_FAIL_DIALOGUE = ["No ha pasado nada."];
 const TELE_INPUT_BUBBLE_OFFSET = 75;
-const TELE_RESULT_BUBBLE_OFFSET = -60;
+const TELE_RESULT_BUBBLE_OFFSET = -20;
 const FONDO2_HOTSPOT_DIALOGUE = [
   "La calle está abarrotada, debería asegurarme de que he recopilado todas las pistas antes de irme."
 ];
@@ -96,9 +120,13 @@ const FONDO5_HOTSPOT_DIALOGUE = [
   "En la estantería hay todo tipo de frascos, pociones y cachivaches pero hay un hueco vacío muy sospechoso..."
 ];
 const FONDO5_BREBAJE_DIALOGUE = ["*Clik*"];
+const FONDO5_PANEL_READY_DIALOGUE = ["*Clik... Clik...*"];
+const FONDO5_BREBAJE_CLICK_BUBBLE_OFFSET = 56;
+const FONDO5_PANEL_READY_BUBBLE_OFFSET = 72;
 const FONDO5_CENTER_HOTSPOT_DIALOGUE = [
   "El cofre se ha abierto un poco pero aún no del todo. Sin embargo se ha iluminado una placa que dice \"La luz nos muestra lo que antes se ocultaba\""
 ];
+const FONDO5_RIGHT_HOTSPOT_DIALOGUE = ["¿Que es esto?"];
 const ANILLO_MODAL = {
   imageSrc: "images/anillo.png",
   imageAlt: "Anillo ampliado",
@@ -112,7 +140,7 @@ const FACTURA_MODAL = {
 const FACTURA_MODAL_FONDO5 = {
   imageSrc: "images/factura.png",
   imageAlt: "Factura ampliada",
-  textHtml: "Con la luz de la sala del tesoro, podemos leer algo oculto en la factura: ¿?"
+  textHtml: "Con la luz de la sala del tesoro, podemos leer algo oculto en la factura: Cuatro elementos necesitarás para la prueba superar."
 };
 const LLAVE_MODAL = {
   imageSrc: "images/llave.png",
@@ -122,7 +150,27 @@ const LLAVE_MODAL = {
 const BREBAJE_MODAL = {
   imageSrc: "images/brebaje.png",
   imageAlt: "Brebaje ampliado",
-  textHtml: "Un brebaje natural creado con flores silvestres."
+  textHtml: "Un brebaje natural creado con flores silvestres. Claramente alguien lo ha dejado aquí para la Competición Financiera."
+};
+const MONEDA_MODAL = {
+  imageSrc: "images/moneda.png",
+  imageAlt: "Moneda ampliada",
+  textHtml: "Una moneda de la Competición Financiera. Representa el dinero en efectivo:<br>Es el dinero en forma física (billetes y monedas) que se utiliza para pagar bienes y servicios de manera inmediata, tangible y sin intermediarios electrónicos. En la parte trasera tiene grabada una A."
+};
+const TARJETA_MODAL = {
+  imageSrc: "images/tarjeta.png",
+  imageAlt: "Tarjeta ampliada",
+  textHtml: "Una tarjeta de crédito que forma parte de la Competición Financiera. El dinero que gastamos con una tarjeta de crédito viene a ser un préstamo inmediato del banco que te permite gastar dinero que no tienes en ese momento, con la condición de devolverlo en una fecha pactada para evitar intereses. Tiene escrita la letra B."
+};
+const BROCHEINVERSION_MODAL = {
+  imageSrc: "images/brocheinversion.png",
+  imageAlt: "Broche inversion ampliado",
+  textHtml: "Un broche de la Competición Financiera. Representa el concepto de inversión: Invertir es emplear hoy tu dinero en un activo (como acciones, negocios o propiedades) con la expectativa de obtener un beneficio o ganancia en el futuro, aceptando siempre un nivel de riesgo. En la parte trasera tiene grabada una C."
+};
+const BROCHEINTERES_MODAL = {
+  imageSrc: "images/brocheinteres.png",
+  imageAlt: "Broche interes ampliado",
+  textHtml: "Un broche de la Competición Financiera. Representa el concepto de interés: el interés es el coste que se paga por utilizar dinero ajeno o la ganancia que se recibe por prestarlo o invertirlo. Se define como el precio del tiempo y del riesgo, calculado habitualmente como un porcentaje del capital original que determina cuánto crece una deuda o un ahorro en un periodo determinado. Tiene grabado una D."
 };
 const ANILLO_OBTAINED_MODAL = {
   imageSrc: "images/anillo.png",
@@ -143,6 +191,26 @@ const BREBAJE_OBTAINED_MODAL = {
   imageSrc: "images/brebaje.png",
   imageAlt: "Brebaje obtenido",
   textHtml: "¡Has obtenido un brebaje!"
+};
+const MONEDA_OBTAINED_MODAL = {
+  imageSrc: "images/moneda.png",
+  imageAlt: "Moneda obtenida",
+  textHtml: "¡Has obtenido una moneda!"
+};
+const TARJETA_OBTAINED_MODAL = {
+  imageSrc: "images/tarjeta.png",
+  imageAlt: "Tarjeta obtenida",
+  textHtml: "¡Has obtenido tarjeta de crédito!"
+};
+const BROCHEINVERSION_OBTAINED_MODAL = {
+  imageSrc: "images/brocheinversion.png",
+  imageAlt: "Broche inversion obtenido",
+  textHtml: "¡Has obtenido un broche de inversión!"
+};
+const BROCHEINTERES_OBTAINED_MODAL = {
+  imageSrc: "images/brocheinteres.png",
+  imageAlt: "Broche interes obtenido",
+  textHtml: "¡Has obtenido un broche de interés!"
 };
 const INITIAL_GUARDIAN_LEFT =
   getComputedStyle(document.documentElement).getPropertyValue("--guardian-left").trim() || "0px";
@@ -168,9 +236,17 @@ let hasAnillo = false;
 let hasFactura = false;
 let hasLlave = false;
 let hasBrebaje = false;
+let hasMoneda = false;
+let hasTarjeta = false;
+let hasBrocheinversion = false;
+let hasBrocheinteres = false;
 let hasCompletedVendedoraTrade = false;
 let hasUnlockedFondo4Door = false;
 let hasActivatedFondo5CenterHotspot = false;
+let hasUnlockedFondo5Panel = false;
+let hasCompletedPanelDropPuzzle = false;
+let hasUsedFondo5LeftHotspot = false;
+let hasTriggeredEnding = false;
 let pendingVendedoraDismissAfterDialogue = false;
 let speechAnchor = null;
 let dragProxy = null;
@@ -181,6 +257,7 @@ let pendingSpeechForTele = false;
 let pendingSpeechForFondo4Hotspot = false;
 let pendingSpeechForFondo5Hotspot = false;
 let pendingSpeechForFondo5CenterHotspot = false;
+let pendingSpeechForFondo5RightHotspot = false;
 let activeDialogue = null;
 let activeDialogueIndex = 0;
 let anilloPickupPending = false;
@@ -189,6 +266,16 @@ let draggedInventoryItem = null;
 let guardianWalkIntervalId = null;
 let guardianWalkFrameIndex = 0;
 let draggedSourceElement = null;
+let itemModalContext = "";
+let panelDropACompleted = false;
+let panelDropBCompleted = false;
+let panelDropCCompleted = false;
+let panelDropDCompleted = false;
+let pendingTerminalSuccessDialogue = false;
+let pendingTerminalSuccessAnchor = null;
+let pendingBrocheinversionFromFondo5Right = false;
+let pendingPanelCompletionHeroLine = false;
+let pendingEndingAfterGastonDialogue = false;
 const TRANSPARENT_DRAG_IMAGE = new Image();
 TRANSPARENT_DRAG_IMAGE.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
 const BASE_WIDTH = 1328;
@@ -197,7 +284,11 @@ const INVENTORY_DRAGGABLE_IDS = new Set([
   "anillo-item",
   "factura-item",
   "llave-item",
-  "brebaje-item"
+  "brebaje-item",
+  "moneda-item",
+  "tarjeta-item",
+  "brocheinversion-item",
+  "brocheinteres-item"
 ]);
 const SCENE_BACKGROUND_CLASSES = [
   "in-fondo1",
@@ -206,6 +297,7 @@ const SCENE_BACKGROUND_CLASSES = [
   "in-fondo4",
   "in-fondo5"
 ];
+const DEV_START_AT_PANEL_TEST = false;
 
 function addFallbackOnError(id, label) {
   const el = document.getElementById(id);
@@ -235,6 +327,30 @@ function updateFondo5CenterHotspotState() {
   fondo5HotspotCenter.style.pointerEvents = activeInFondo5 && hasActivatedFondo5CenterHotspot ? "auto" : "none";
 }
 
+function updateFondo5LeftHotspotState() {
+  if (!fondo5HotspotLeft) return;
+  const activeInFondo5 = isInFondo5();
+  if (!activeInFondo5) {
+    fondo5HotspotLeft.style.display = "none";
+    fondo5HotspotLeft.style.pointerEvents = "none";
+    return;
+  }
+  fondo5HotspotLeft.style.display = "block";
+  fondo5HotspotLeft.style.pointerEvents = hasUsedFondo5LeftHotspot ? "none" : "auto";
+}
+
+function showPanelOverlay() {
+  if (!panelOverlay) return;
+  panelOverlay.classList.add("open");
+  panelOverlay.setAttribute("aria-hidden", "false");
+}
+
+function hidePanelOverlay() {
+  if (!panelOverlay) return;
+  panelOverlay.classList.remove("open");
+  panelOverlay.setAttribute("aria-hidden", "true");
+}
+
 addFallbackOnError("background", "fondo no encontrado");
 addFallbackOnError("anillo-world", "anillo.png no encontrado");
 addFallbackOnError("anillo-item", "anillo.png no encontrado");
@@ -246,6 +362,16 @@ addFallbackOnError("bici", "bici.png no encontrado");
 addFallbackOnError("tele", "tele.png no encontrado");
 addFallbackOnError("vendedora", "vendedora.png no encontrado");
 addFallbackOnError("brebaje", "brebaje.png no encontrado");
+addFallbackOnError("moneda-world", "moneda.png no encontrado");
+addFallbackOnError("tarjeta-world", "tarjeta.png no encontrado");
+addFallbackOnError("brocheinversion-world", "brocheinversion.png no encontrado");
+addFallbackOnError("brocheinteres-world", "brocheinteres.png no encontrado");
+addFallbackOnError("moneda-item", "moneda.png no encontrado");
+addFallbackOnError("tarjeta-item", "tarjeta.png no encontrado");
+addFallbackOnError("brocheinversion-item", "brocheinversion.png no encontrado");
+addFallbackOnError("brocheinteres-item", "brocheinteres.png no encontrado");
+addFallbackOnError("guardianes-logo", "guardianes.png no encontrado");
+addFallbackOnError("abanca-logo", "abanca.png no encontrado");
 
 function preloadGuardianWalkFrames() {
   for (const src of GUARDIAN_WALK_FRAMES) {
@@ -328,13 +454,43 @@ function isItemOwned(itemType) {
   if (itemType === "factura") return hasFactura;
   if (itemType === "llave") return hasLlave;
   if (itemType === "brebaje") return hasBrebaje;
+  if (itemType === "moneda") return hasMoneda;
+  if (itemType === "tarjeta") return hasTarjeta;
+  if (itemType === "brocheinversion") return hasBrocheinversion;
+  if (itemType === "brocheinteres") return hasBrocheinteres;
   return false;
+}
+
+function isInventoryItemVisible(itemEl) {
+  if (!itemEl) return false;
+  return window.getComputedStyle(itemEl).display !== "none";
+}
+
+function ensureVisibleInventoryItemsAreInteractive() {
+  const items = [
+    anilloItem,
+    facturaItem,
+    llaveItem,
+    brebajeItem,
+    monedaItem,
+    tarjetaItem,
+    brocheinversionItem,
+    brocheinteresItem
+  ];
+  for (const itemEl of items) {
+    if (!itemEl) continue;
+    if (!isInventoryItemVisible(itemEl)) continue;
+    itemEl.style.pointerEvents = "auto";
+    itemEl.setAttribute("draggable", "true");
+  }
 }
 
 function setupInventoryItemDrag(itemEl, itemType) {
   if (!itemEl) return;
   itemEl.addEventListener("dragstart", (event) => {
-    if (!isItemOwned(itemType)) {
+    const isOwned = isItemOwned(itemType);
+    const isVisible = window.getComputedStyle(itemEl).display !== "none";
+    if (!isOwned && !isVisible) {
       event.preventDefault();
       return;
     }
@@ -498,18 +654,13 @@ function isGuardianBeside(el) {
   return closeEnough && verticalOverlap;
 }
 
-function positionSpeechAt(el) {
+function positionSpeechAt(el, extraTop = 0) {
   const targetRect = getWorldRect(el);
-  const dialogueExtraTop = activeDialogue && Number.isFinite(activeDialogue.speechExtraTop)
-    ? activeDialogue.speechExtraTop
-    : 0;
-  const extraTopOffset = el && el.id === "ardillaguardiana"
-    ? 140
-    : el && el.id === "gaston"
-      ? 80
-      : 0;
+  const speechBottomAnchorY = targetRect.top - SPEECH_BASELINE_OFFSET_PX;
+  const anchoredBottom = BASE_HEIGHT - speechBottomAnchorY + extraTop;
   speech.style.left = `${targetRect.left + 50}px`;
-  speech.style.top = `${targetRect.top - 150 - extraTopOffset - dialogueExtraTop}px`;
+  speech.style.top = "auto";
+  speech.style.bottom = `${anchoredBottom}px`;
 }
 
 function positionSpeechCenter() {
@@ -517,6 +668,7 @@ function positionSpeechCenter() {
   const centerY = BASE_HEIGHT / 2;
   speech.style.left = `${centerX - 150}px`;
   speech.style.top = `${centerY - 110}px`;
+  speech.style.bottom = "auto";
 }
 
 function closeSpeech() {
@@ -598,10 +750,13 @@ function renderActiveDialogue() {
       speechOptions.style.display = "none";
     }
     if (speechNextBtn) {
-      speechNextBtn.style.display = "block";
       if (activeDialogue.type === "travel") {
+        speechNextBtn.style.display = "block";
         speechNextBtn.textContent = activeDialogue.nextLabel || TRAVEL_SPEECH_NEXT_LABEL;
+      } else if (activeDialogue.hideNextButton) {
+        speechNextBtn.style.display = "none";
       } else {
+        speechNextBtn.style.display = "block";
         speechNextBtn.textContent = DEFAULT_SPEECH_NEXT_LABEL;
       }
     }
@@ -609,13 +764,19 @@ function renderActiveDialogue() {
   if (activeDialogue.type === "centered") {
     positionSpeechCenter();
   } else {
-    positionSpeechAt(activeDialogue.anchor);
+    positionSpeechAt(activeDialogue.anchor, activeDialogue.speechExtraTop || 0);
   }
   speech.style.display = "block";
 }
 
-function startDialogue(anchor, lines, speechExtraTop = 0) {
-  activeDialogue = { type: "linear", anchor, lines, speechExtraTop };
+function startDialogue(anchor, lines, speechExtraTop = 0, options = {}) {
+  activeDialogue = {
+    type: "linear",
+    anchor,
+    lines,
+    speechExtraTop,
+    hideNextButton: options.hideNextButton === true
+  };
   activeDialogueIndex = 0;
   renderActiveDialogue();
 }
@@ -644,6 +805,68 @@ function startCenteredDialogue(lines) {
   renderActiveDialogue();
 }
 
+function placeGastonAtFondo5LeftHotspotRight() {
+  if (!gaston || !fondo5HotspotLeft) return;
+  const leftHotspotRect = getWorldRect(fondo5HotspotLeft);
+  const gastonWidth = gaston.offsetWidth || BASE_WIDTH * 0.12;
+  const desiredCenterX = Math.min(
+    BASE_WIDTH - gastonWidth * 0.5,
+    leftHotspotRect.right + gastonWidth * 0.68
+  );
+  gaston.style.left = `${(desiredCenterX / BASE_WIDTH) * 100}%`;
+  gaston.style.bottom = INITIAL_GUARDIAN_BOTTOM;
+  gaston.style.transform = "translateX(-50%)";
+}
+
+function showEndingOverlay() {
+  if (!endingOverlay || hasTriggeredEnding) return;
+  hasTriggeredEnding = true;
+  closeSpeech();
+  hidePanelOverlay();
+  if (nextArrow) {
+    nextArrow.style.display = "none";
+  }
+  if (prevArrow) {
+    prevArrow.style.display = "none";
+  }
+  if (inventory) {
+    inventory.style.display = "none";
+  }
+  endingOverlay.classList.add("open");
+  endingOverlay.setAttribute("aria-hidden", "false");
+}
+
+function startGastonFinalSequence() {
+  if (!isInFondo5()) return;
+  if (gaston) {
+    placeGastonAtFondo5LeftHotspotRight();
+    gaston.style.display = "block";
+  }
+  if (guardian && fondo5HotspotCenter) {
+    const guardianRect = getWorldRect(guardian);
+    const centerRect = getWorldRect(fondo5HotspotCenter);
+    const guardianCenterX = guardianRect.left + guardianRect.width * 0.5;
+    const centerHotspotCenterX = centerRect.left + centerRect.width * 0.5;
+    if (guardianCenterX < centerHotspotCenterX) {
+      guardian.style.transform = "scaleX(1)";
+    } else if (gaston) {
+      faceGuardianToward(gaston);
+    }
+  }
+  if (!gaston) {
+    showEndingOverlay();
+    return;
+  }
+  pendingEndingAfterGastonDialogue = true;
+  startDialogue(gaston, GASTON_FINAL_DIALOGUE);
+}
+
+function startPanelCompletionSequence() {
+  hidePanelOverlay();
+  pendingPanelCompletionHeroLine = true;
+  startDialogue(guardian, ["¡Lo he conseguido!"]);
+}
+
 function completeVendedoraTrade() {
   hasCompletedVendedoraTrade = true;
   pendingVendedoraDismissAfterDialogue = false;
@@ -670,15 +893,36 @@ function advanceActiveDialogue() {
     const input = document.getElementById("speech-terminal-input");
     const value = input ? input.value.trim() : "";
     if (value === activeDialogue.expectedCode) {
+      pendingTerminalSuccessDialogue = true;
+      pendingTerminalSuccessAnchor = activeDialogue.anchor || guardian;
       grantLlaveFromTerminal();
-      startDialogue(activeDialogue.anchor, TELE_SUCCESS_DIALOGUE, TELE_RESULT_BUBBLE_OFFSET);
     } else {
+      pendingTerminalSuccessDialogue = false;
+      pendingTerminalSuccessAnchor = null;
       startDialogue(activeDialogue.anchor, TELE_FAIL_DIALOGUE, TELE_RESULT_BUBBLE_OFFSET);
     }
     return;
   }
   if (activeDialogue.type !== "linear" && activeDialogue.type !== "centered") return;
   if (activeDialogueIndex >= activeDialogue.lines.length - 1) {
+    if (pendingPanelCompletionHeroLine && activeDialogue.anchor === guardian) {
+      pendingPanelCompletionHeroLine = false;
+      closeSpeech();
+      startGastonFinalSequence();
+      return;
+    }
+    if (pendingEndingAfterGastonDialogue && activeDialogue.anchor === gaston) {
+      pendingEndingAfterGastonDialogue = false;
+      closeSpeech();
+      showEndingOverlay();
+      return;
+    }
+    if (pendingBrocheinversionFromFondo5Right) {
+      pendingBrocheinversionFromFondo5Right = false;
+      closeSpeech();
+      grantBrocheinversionFromFondo5Right();
+      return;
+    }
     if (pendingVendedoraDismissAfterDialogue && activeDialogue.anchor === vendedora) {
       completeVendedoraTrade();
     }
@@ -751,6 +995,9 @@ function pickupAnillo() {
     firstSlot.appendChild(anilloItem);
   }
   anilloItem.style.display = "block";
+  anilloItem.style.pointerEvents = "auto";
+  anilloItem.setAttribute("draggable", "true");
+  ensureVisibleInventoryItemsAreInteractive();
   openItemModal(ANILLO_OBTAINED_MODAL);
 }
 
@@ -762,6 +1009,10 @@ function grantLlaveFromTerminal() {
     secondSlot.appendChild(llaveItem);
   }
   llaveItem.style.display = "block";
+  llaveItem.style.pointerEvents = "auto";
+  llaveItem.setAttribute("draggable", "true");
+  ensureVisibleInventoryItemsAreInteractive();
+  itemModalContext = "terminal_llave_success";
   openItemModal(LLAVE_OBTAINED_MODAL);
 }
 
@@ -777,7 +1028,142 @@ function pickupBrebaje() {
     thirdSlot.appendChild(brebajeItem);
   }
   brebajeItem.style.display = "block";
+  ensureVisibleInventoryItemsAreInteractive();
   openItemModal(BREBAJE_OBTAINED_MODAL);
+}
+
+function pickupMoneda() {
+  if (hasMoneda || !monedaItem) return;
+  hasMoneda = true;
+  if (monedaWorld) {
+    monedaWorld.style.display = "none";
+    monedaWorld.style.pointerEvents = "none";
+  }
+  const fourthSlot = inventorySlots[3];
+  if (fourthSlot) {
+    fourthSlot.appendChild(monedaItem);
+  }
+  monedaItem.style.display = "block";
+  ensureVisibleInventoryItemsAreInteractive();
+}
+
+function pickupTarjeta() {
+  if (hasTarjeta || !tarjetaItem) return;
+  hasTarjeta = true;
+  if (tarjetaWorld) {
+    tarjetaWorld.style.display = "none";
+    tarjetaWorld.style.pointerEvents = "none";
+  }
+  const fifthSlot = inventorySlots[4];
+  if (fifthSlot) {
+    fifthSlot.appendChild(tarjetaItem);
+  }
+  tarjetaItem.style.display = "block";
+  ensureVisibleInventoryItemsAreInteractive();
+}
+
+function grantTarjetaFromBrebajeUse() {
+  if (hasTarjeta || !tarjetaItem) return;
+  hasTarjeta = true;
+  if (tarjetaWorld) {
+    tarjetaWorld.style.display = "none";
+    tarjetaWorld.style.pointerEvents = "none";
+  }
+  const thirdSlot = inventorySlots[2];
+  if (thirdSlot) {
+    thirdSlot.appendChild(tarjetaItem);
+  }
+  tarjetaItem.style.display = "block";
+  tarjetaItem.style.pointerEvents = "auto";
+  tarjetaItem.setAttribute("draggable", "true");
+  ensureVisibleInventoryItemsAreInteractive();
+}
+
+function pickupBrocheinversion() {
+  if (hasBrocheinversion || !brocheinversionItem) return;
+  hasBrocheinversion = true;
+  if (brocheinversionWorld) {
+    brocheinversionWorld.style.display = "none";
+    brocheinversionWorld.style.pointerEvents = "none";
+  }
+  const sixthSlot = inventorySlots[5];
+  if (sixthSlot) {
+    sixthSlot.appendChild(brocheinversionItem);
+  }
+  brocheinversionItem.style.display = "block";
+  ensureVisibleInventoryItemsAreInteractive();
+  openItemModal(BROCHEINVERSION_OBTAINED_MODAL);
+}
+
+function grantBrocheinversionFromFondo5Right() {
+  if (hasBrocheinversion || !brocheinversionItem) return;
+  hasBrocheinversion = true;
+  if (fondo5HotspotRight) {
+    fondo5HotspotRight.style.display = "none";
+    fondo5HotspotRight.style.pointerEvents = "none";
+  }
+  const secondSlot = inventorySlots[1];
+  if (secondSlot) {
+    secondSlot.appendChild(brocheinversionItem);
+  }
+  brocheinversionItem.style.display = "block";
+  brocheinversionItem.style.pointerEvents = "auto";
+  brocheinversionItem.setAttribute("draggable", "true");
+  ensureVisibleInventoryItemsAreInteractive();
+  openItemModal(BROCHEINVERSION_OBTAINED_MODAL);
+}
+
+function pickupBrocheinteres() {
+  if (hasBrocheinteres || !brocheinteresItem) return;
+  hasBrocheinteres = true;
+  if (brocheinteresWorld) {
+    brocheinteresWorld.style.display = "none";
+    brocheinteresWorld.style.pointerEvents = "none";
+  }
+  const seventhSlot = inventorySlots[6];
+  if (seventhSlot) {
+    seventhSlot.appendChild(brocheinteresItem);
+  }
+  brocheinteresItem.style.display = "block";
+  ensureVisibleInventoryItemsAreInteractive();
+  openItemModal(BROCHEINTERES_OBTAINED_MODAL);
+}
+
+function completePanelDropTarget(itemType, targetEl) {
+  if (!targetEl) return false;
+  if (itemType === "moneda" && targetEl === panelA && !panelDropACompleted && hasMoneda) {
+    panelDropACompleted = true;
+    hasMoneda = false;
+    monedaItem.style.display = "none";
+    monedaItem.style.pointerEvents = "none";
+    monedaItem.setAttribute("draggable", "false");
+    return true;
+  }
+  if (itemType === "tarjeta" && targetEl === panelB && !panelDropBCompleted && hasTarjeta) {
+    panelDropBCompleted = true;
+    hasTarjeta = false;
+    tarjetaItem.style.display = "none";
+    tarjetaItem.style.pointerEvents = "none";
+    tarjetaItem.setAttribute("draggable", "false");
+    return true;
+  }
+  if (itemType === "brocheinversion" && targetEl === panelC && !panelDropCCompleted && hasBrocheinversion) {
+    panelDropCCompleted = true;
+    hasBrocheinversion = false;
+    brocheinversionItem.style.display = "none";
+    brocheinversionItem.style.pointerEvents = "none";
+    brocheinversionItem.setAttribute("draggable", "false");
+    return true;
+  }
+  if (itemType === "brocheinteres" && targetEl === panelD && !panelDropDCompleted && hasBrocheinteres) {
+    panelDropDCompleted = true;
+    hasBrocheinteres = false;
+    brocheinteresItem.style.display = "none";
+    brocheinteresItem.style.pointerEvents = "none";
+    brocheinteresItem.setAttribute("draggable", "false");
+    return true;
+  }
+  return false;
 }
 
 function unlockFondo4DoorWithLlave() {
@@ -813,6 +1199,7 @@ function tradeAnilloForFactura() {
     targetSlot.appendChild(facturaItem);
   }
   facturaItem.style.display = "block";
+  ensureVisibleInventoryItemsAreInteractive();
   openItemModal(FACTURA_OBTAINED_MODAL);
 
   pendingVendedoraDismissAfterDialogue = true;
@@ -876,8 +1263,50 @@ function openItemModal(content = ANILLO_MODAL) {
 }
 
 function closeItemModal() {
+  const shouldTriggerFondo5PanelReady =
+    itemModalContext === "factura_fondo5"
+    && isInFondo5();
+  const shouldHandleTerminalSuccess =
+    itemModalContext === "terminal_llave_success";
+  const shouldHandleTerminalCoinSuccess =
+    itemModalContext === "terminal_moneda_success";
+  const shouldTriggerBrebajeClik =
+    itemModalContext === "tarjeta_from_brebaje"
+    && isInFondo5();
   itemModal.classList.remove("open");
   itemModal.setAttribute("aria-hidden", "true");
+  itemModalContext = "";
+  if (shouldHandleTerminalSuccess && pendingTerminalSuccessDialogue) {
+    pickupMoneda();
+    itemModalContext = "terminal_moneda_success";
+    openItemModal(MONEDA_OBTAINED_MODAL);
+    return;
+  }
+  if (shouldHandleTerminalCoinSuccess && pendingTerminalSuccessDialogue) {
+    startDialogue(
+      pendingTerminalSuccessAnchor || guardian,
+      TELE_SUCCESS_DIALOGUE,
+      TELE_RESULT_BUBBLE_OFFSET
+    );
+    pendingTerminalSuccessDialogue = false;
+    pendingTerminalSuccessAnchor = null;
+  }
+  if (shouldTriggerFondo5PanelReady && !hasUnlockedFondo5Panel) {
+    hasUnlockedFondo5Panel = true;
+    startDialogue(
+      fondo5HotspotCenter || guardian,
+      FONDO5_PANEL_READY_DIALOGUE,
+      FONDO5_PANEL_READY_BUBBLE_OFFSET,
+      { hideNextButton: true }
+    );
+  }
+  if (shouldTriggerBrebajeClik) {
+    startDialogue(
+      fondo5HotspotCenter || guardian,
+      FONDO5_BREBAJE_DIALOGUE,
+      FONDO5_BREBAJE_CLICK_BUBBLE_OFFSET
+    );
+  }
 }
 
 function goToFondo2() {
@@ -885,6 +1314,7 @@ function goToFondo2() {
   closeSpeech();
   cancelPendingAnilloPickup();
   stopGuardianWalkAnimation();
+  hidePanelOverlay();
   pendingSpeechForGaston = false;
   pendingSpeechForArdillaGuardiana = false;
   pendingSpeechForBici = false;
@@ -929,12 +1359,29 @@ function goToFondo2() {
   if (fondo5HotspotLeft) {
     fondo5HotspotLeft.style.display = "none";
   }
+  if (fondo5HotspotRight) {
+    fondo5HotspotRight.style.display = "none";
+  }
   updateFondo5CenterHotspotState();
   if (brebaje) {
     brebaje.style.display = "none";
   }
+  if (monedaWorld) {
+    monedaWorld.style.display = "none";
+  }
+  if (tarjetaWorld) {
+    tarjetaWorld.style.display = "none";
+  }
+  if (brocheinversionWorld) {
+    brocheinversionWorld.style.display = "none";
+    brocheinversionWorld.style.pointerEvents = "none";
+  }
+  if (brocheinteresWorld) {
+    brocheinteresWorld.style.display = "none";
+  }
   anilloWorld.style.display = "none";
   inventory.style.display = "block";
+  ensureVisibleInventoryItemsAreInteractive();
   nextArrow.style.display = "none";
   prevArrow.style.display = "block";
   prevArrow.setAttribute("aria-label", "Volver a fondo 1");
@@ -945,6 +1392,7 @@ function goToFondo3() {
   closeSpeech();
   cancelPendingAnilloPickup();
   stopGuardianWalkAnimation();
+  hidePanelOverlay();
   pendingSpeechForGaston = false;
   pendingSpeechForArdillaGuardiana = false;
   pendingSpeechForBici = false;
@@ -964,7 +1412,7 @@ function goToFondo3() {
     tele.style.display = "none";
   }
   if (ardillaGuardiana) {
-    ardillaGuardiana.style.display = "none";
+    ardillaGuardiana.style.display = "block";
   }
   if (bici) {
     bici.style.display = "block";
@@ -988,12 +1436,31 @@ function goToFondo3() {
   if (fondo5HotspotLeft) {
     fondo5HotspotLeft.style.display = "none";
   }
+  if (fondo5HotspotRight) {
+    fondo5HotspotRight.style.display = "none";
+  }
   updateFondo5CenterHotspotState();
   if (brebaje) {
     brebaje.style.display = hasBrebaje ? "none" : "block";
+    brebaje.style.pointerEvents = hasBrebaje ? "none" : "auto";
+  }
+  if (monedaWorld) {
+    monedaWorld.style.display = "none";
+  }
+  if (tarjetaWorld) {
+    tarjetaWorld.style.display = "none";
+  }
+  if (brocheinversionWorld) {
+    brocheinversionWorld.style.display = "none";
+    brocheinversionWorld.style.pointerEvents = "none";
+  }
+  if (brocheinteresWorld) {
+    brocheinteresWorld.style.display = "block";
+    brocheinteresWorld.style.pointerEvents = "auto";
   }
   anilloWorld.style.display = "none";
   inventory.style.display = "block";
+  ensureVisibleInventoryItemsAreInteractive();
   nextArrow.style.display = "none";
   prevArrow.style.display = "block";
   prevArrow.style.visibility = "visible";
@@ -1006,6 +1473,7 @@ function goToFondo4(fromFondo5 = false) {
   closeSpeech();
   cancelPendingAnilloPickup();
   stopGuardianWalkAnimation();
+  hidePanelOverlay();
   pendingSpeechForGaston = false;
   pendingSpeechForArdillaGuardiana = false;
   pendingSpeechForBici = false;
@@ -1052,12 +1520,28 @@ function goToFondo4(fromFondo5 = false) {
   if (fondo5HotspotLeft) {
     fondo5HotspotLeft.style.display = "none";
   }
+  if (fondo5HotspotRight) {
+    fondo5HotspotRight.style.display = "none";
+  }
   updateFondo5CenterHotspotState();
   if (brebaje) {
     brebaje.style.display = "none";
   }
+  if (monedaWorld) {
+    monedaWorld.style.display = "none";
+  }
+  if (tarjetaWorld) {
+    tarjetaWorld.style.display = "none";
+  }
+  if (brocheinversionWorld) {
+    brocheinversionWorld.style.display = "none";
+  }
+  if (brocheinteresWorld) {
+    brocheinteresWorld.style.display = "none";
+  }
   anilloWorld.style.display = "none";
   inventory.style.display = "block";
+  ensureVisibleInventoryItemsAreInteractive();
   nextArrow.style.display = "block";
   nextArrow.setAttribute("aria-label", "Volver a fondo 3");
   prevArrow.style.display = "none";
@@ -1068,6 +1552,7 @@ function goToFondo5() {
   closeSpeech();
   cancelPendingAnilloPickup();
   stopGuardianWalkAnimation();
+  hidePanelOverlay();
   pendingSpeechForGaston = false;
   pendingSpeechForArdillaGuardiana = false;
   pendingSpeechForBici = false;
@@ -1108,14 +1593,35 @@ function goToFondo5() {
     fondo4HotspotLeftBottom.style.display = "none";
   }
   if (fondo5HotspotLeft) {
-    fondo5HotspotLeft.style.display = "block";
+    updateFondo5LeftHotspotState();
+  }
+  if (fondo5HotspotRight) {
+    fondo5HotspotRight.style.display = "block";
+    fondo5HotspotRight.style.pointerEvents = "auto";
   }
   updateFondo5CenterHotspotState();
   if (brebaje) {
     brebaje.style.display = "none";
   }
+  if (monedaWorld) {
+    monedaWorld.style.display = "none";
+    monedaWorld.style.pointerEvents = "none";
+  }
+  if (tarjetaWorld) {
+    tarjetaWorld.style.display = "none";
+    tarjetaWorld.style.pointerEvents = "none";
+  }
+  if (brocheinversionWorld) {
+    brocheinversionWorld.style.display = "none";
+    brocheinversionWorld.style.pointerEvents = "none";
+  }
+  if (brocheinteresWorld) {
+    brocheinteresWorld.style.display = "none";
+    brocheinteresWorld.style.pointerEvents = "none";
+  }
   anilloWorld.style.display = "none";
   inventory.style.display = "block";
+  ensureVisibleInventoryItemsAreInteractive();
   nextArrow.style.display = "block";
   nextArrow.setAttribute("aria-label", "Volver a fondo 4");
   prevArrow.style.display = "none";
@@ -1126,6 +1632,7 @@ function goToFondo1() {
   closeSpeech();
   cancelPendingAnilloPickup();
   stopGuardianWalkAnimation();
+  hidePanelOverlay();
   pendingSpeechForGaston = false;
   pendingSpeechForArdillaGuardiana = false;
   pendingSpeechForBici = false;
@@ -1169,13 +1676,29 @@ function goToFondo1() {
   if (fondo5HotspotLeft) {
     fondo5HotspotLeft.style.display = "none";
   }
+  if (fondo5HotspotRight) {
+    fondo5HotspotRight.style.display = "none";
+  }
   updateFondo5CenterHotspotState();
   if (brebaje) {
     brebaje.style.display = "none";
   }
+  if (monedaWorld) {
+    monedaWorld.style.display = "none";
+  }
+  if (tarjetaWorld) {
+    tarjetaWorld.style.display = "none";
+  }
+  if (brocheinversionWorld) {
+    brocheinversionWorld.style.display = "none";
+  }
+  if (brocheinteresWorld) {
+    brocheinteresWorld.style.display = "none";
+  }
   anilloWorld.style.display = hasAnillo ? "none" : "block";
   anilloWorld.style.pointerEvents = hasAnillo ? "none" : "auto";
   inventory.style.display = "block";
+  ensureVisibleInventoryItemsAreInteractive();
   nextArrow.style.display = "block";
   nextArrow.setAttribute("aria-label", "Ir a fondo 2");
   prevArrow.style.display = "none";
@@ -1302,6 +1825,7 @@ if (fondo4HotspotLeftBottom) {
 
 if (fondo5HotspotLeft) {
   fondo5HotspotLeft.addEventListener("click", () => {
+    if (hasUsedFondo5LeftHotspot) return;
     closeSpeech();
     pendingSpeechForTele = false;
     pendingSpeechForBici = false;
@@ -1322,6 +1846,11 @@ if (fondo5HotspotLeft) {
 if (fondo5HotspotCenter) {
   fondo5HotspotCenter.addEventListener("click", () => {
     if (!hasActivatedFondo5CenterHotspot) return;
+    if (hasUnlockedFondo5Panel) {
+      closeSpeech();
+      showPanelOverlay();
+      return;
+    }
     closeSpeech();
     pendingSpeechForTele = false;
     pendingSpeechForBici = false;
@@ -1335,6 +1864,28 @@ if (fondo5HotspotCenter) {
       faceGuardianToward(fondo5HotspotCenter);
       startDialogue(guardian, FONDO5_CENTER_HOTSPOT_DIALOGUE);
       pendingSpeechForFondo5CenterHotspot = false;
+    }
+  });
+}
+
+if (fondo5HotspotRight) {
+  fondo5HotspotRight.addEventListener("click", () => {
+    if (hasBrocheinversion) return;
+    closeSpeech();
+    pendingSpeechForTele = false;
+    pendingSpeechForBici = false;
+    pendingSpeechForGaston = false;
+    pendingSpeechForArdillaGuardiana = false;
+    pendingSpeechForFondo4Hotspot = false;
+    pendingSpeechForFondo5Hotspot = false;
+    pendingSpeechForFondo5CenterHotspot = false;
+    pendingSpeechForFondo5RightHotspot = true;
+    pendingBrocheinversionFromFondo5Right = true;
+    moveGuardianInFrontOf(fondo5HotspotRight, false);
+    if (isGuardianBeside(fondo5HotspotRight)) {
+      faceGuardianToward(fondo5HotspotRight);
+      startDialogue(guardian, FONDO5_RIGHT_HOTSPOT_DIALOGUE);
+      pendingSpeechForFondo5RightHotspot = false;
     }
   });
 }
@@ -1397,7 +1948,7 @@ if (anilloWorld) {
 if (anilloItem) {
   setupInventoryItemDrag(anilloItem, "anillo");
   anilloItem.addEventListener("click", () => {
-    if (!hasAnillo) return;
+    if (!isInventoryItemVisible(anilloItem)) return;
     openItemModal(ANILLO_MODAL);
   });
 }
@@ -1405,15 +1956,17 @@ if (anilloItem) {
 if (facturaItem) {
   setupInventoryItemDrag(facturaItem, "factura");
   facturaItem.addEventListener("click", () => {
-    if (!hasFactura) return;
-    openItemModal(isInFondo5() ? FACTURA_MODAL_FONDO5 : FACTURA_MODAL);
+    if (!hasFactura && !isInventoryItemVisible(facturaItem)) return;
+    const inFondo5 = isInFondo5();
+    itemModalContext = inFondo5 ? "factura_fondo5" : "factura_default";
+    openItemModal(inFondo5 ? FACTURA_MODAL_FONDO5 : FACTURA_MODAL);
   });
 }
 
 if (llaveItem) {
   setupInventoryItemDrag(llaveItem, "llave");
   llaveItem.addEventListener("click", () => {
-    if (!hasLlave) return;
+    if (!isInventoryItemVisible(llaveItem)) return;
     openItemModal(LLAVE_MODAL);
   });
 }
@@ -1421,14 +1974,70 @@ if (llaveItem) {
 if (brebajeItem) {
   setupInventoryItemDrag(brebajeItem, "brebaje");
   brebajeItem.addEventListener("click", () => {
-    if (!hasBrebaje) return;
+    if (!hasBrebaje && !isInventoryItemVisible(brebajeItem)) return;
     openItemModal(BREBAJE_MODAL);
+  });
+}
+
+if (monedaItem) {
+  setupInventoryItemDrag(monedaItem, "moneda");
+  monedaItem.addEventListener("click", () => {
+    if (!hasMoneda && !isInventoryItemVisible(monedaItem)) return;
+    openItemModal(MONEDA_MODAL);
+  });
+}
+
+if (tarjetaItem) {
+  setupInventoryItemDrag(tarjetaItem, "tarjeta");
+  tarjetaItem.addEventListener("click", () => {
+    if (!hasTarjeta && !isInventoryItemVisible(tarjetaItem)) return;
+    openItemModal(TARJETA_MODAL);
+  });
+}
+
+if (brocheinversionItem) {
+  setupInventoryItemDrag(brocheinversionItem, "brocheinversion");
+  brocheinversionItem.addEventListener("click", () => {
+    if (!hasBrocheinversion && !isInventoryItemVisible(brocheinversionItem)) return;
+    openItemModal(BROCHEINVERSION_MODAL);
+  });
+}
+
+if (brocheinteresItem) {
+  setupInventoryItemDrag(brocheinteresItem, "brocheinteres");
+  brocheinteresItem.addEventListener("click", () => {
+    if (!hasBrocheinteres && !isInventoryItemVisible(brocheinteresItem)) return;
+    openItemModal(BROCHEINTERES_MODAL);
   });
 }
 
 if (brebaje) {
   brebaje.addEventListener("click", () => {
     pickupBrebaje();
+  });
+}
+
+if (monedaWorld) {
+  monedaWorld.addEventListener("click", () => {
+    pickupMoneda();
+  });
+}
+
+if (tarjetaWorld) {
+  tarjetaWorld.addEventListener("click", () => {
+    pickupTarjeta();
+  });
+}
+
+if (brocheinversionWorld) {
+  brocheinversionWorld.addEventListener("click", () => {
+    pickupBrocheinversion();
+  });
+}
+
+if (brocheinteresWorld) {
+  brocheinteresWorld.addEventListener("click", () => {
+    pickupBrocheinteres();
   });
 }
 
@@ -1491,10 +2100,48 @@ if (scene) {
       && isPointInsideElement(clientX, clientY, fondo5HotspotLeft);
     if (droppedOnFondo5Hotspot && droppedItem === "brebaje" && hasBrebaje) {
       closeSpeech();
+      hasBrebaje = false;
+      if (brebajeItem) {
+        brebajeItem.style.display = "none";
+        brebajeItem.style.pointerEvents = "none";
+        brebajeItem.setAttribute("draggable", "false");
+      }
+      grantTarjetaFromBrebajeUse();
+      hasUsedFondo5LeftHotspot = true;
       hasActivatedFondo5CenterHotspot = true;
+      updateFondo5LeftHotspotState();
       updateFondo5CenterHotspotState();
-      startCenteredDialogue(FONDO5_BREBAJE_DIALOGUE);
+      itemModalContext = "tarjeta_from_brebaje";
+      openItemModal(TARJETA_OBTAINED_MODAL);
       return;
+    }
+    const panelOpen = panelOverlay && panelOverlay.classList.contains("open");
+    if (panelOpen) {
+      const panelTargets = [panelA, panelB, panelC, panelD];
+      const droppedPanelTarget = panelTargets.find((target) => isPointInsideElement(clientX, clientY, target));
+      const panelPuzzleItems = new Set(["moneda", "tarjeta", "brocheinversion", "brocheinteres"]);
+      if (droppedPanelTarget) {
+        const correctDrop = completePanelDropTarget(droppedItem, droppedPanelTarget);
+        if (!correctDrop) {
+          buzz();
+          return;
+        }
+        if (
+          panelDropACompleted
+          && panelDropBCompleted
+          && panelDropCCompleted
+          && panelDropDCompleted
+          && !hasCompletedPanelDropPuzzle
+        ) {
+          hasCompletedPanelDropPuzzle = true;
+          startPanelCompletionSequence();
+        }
+        return;
+      }
+      if (panelPuzzleItems.has(droppedItem)) {
+        buzz();
+        return;
+      }
     }
 
     const validDrop = isValidDrop(clientX, clientY);
@@ -1604,6 +2251,22 @@ if (guardian) {
       pendingSpeechForFondo4Hotspot = false;
       pendingSpeechForFondo5CenterHotspot = false;
     } else if (
+      pendingSpeechForFondo5RightHotspot
+      && fondo5HotspotRight
+      && isInFondo5()
+      && isGuardianBeside(fondo5HotspotRight)
+    ) {
+      faceGuardianToward(fondo5HotspotRight);
+      startDialogue(guardian, FONDO5_RIGHT_HOTSPOT_DIALOGUE);
+      pendingSpeechForFondo5RightHotspot = false;
+      pendingSpeechForFondo5CenterHotspot = false;
+      pendingSpeechForGaston = false;
+      pendingSpeechForArdillaGuardiana = false;
+      pendingSpeechForBici = false;
+      pendingSpeechForTele = false;
+      pendingSpeechForFondo4Hotspot = false;
+      pendingSpeechForFondo5Hotspot = false;
+    } else if (
       pendingSpeechForFondo5CenterHotspot
       && fondo5HotspotCenter
       && isGuardianBeside(fondo5HotspotCenter)
@@ -1648,10 +2311,28 @@ if (itemModalContent) {
   });
 }
 
+if (endingWebBtn) {
+  endingWebBtn.addEventListener("click", () => {
+    window.open("https://guardianesdeltesoro.afundacion.org", "_blank", "noopener,noreferrer");
+  });
+}
+
 window.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
     closeItemModal();
+    return;
   }
+  if (event.key !== "Enter") return;
+  if (itemModal && itemModal.classList.contains("open")) {
+    event.preventDefault();
+    closeItemModal();
+    return;
+  }
+  if (speech.style.display === "none" || !activeDialogue) return;
+  if (!speechNextBtn || speechNextBtn.style.display === "none") return;
+
+  event.preventDefault();
+  advanceActiveDialogue();
 });
 
 window.addEventListener("pointerdown", (event) => {
@@ -1667,11 +2348,24 @@ window.addEventListener("pointerdown", (event) => {
 window.addEventListener("resize", () => {
   layoutScene();
   if (speechAnchor && speech.style.display !== "none") {
-    positionSpeechAt(speechAnchor);
+    positionSpeechAt(speechAnchor, activeDialogue?.speechExtraTop || 0);
   }
 });
 if (scene && sceneViewport) {
   preloadGuardianWalkFrames();
   stopGuardianWalkAnimation();
   layoutScene();
+  ensureVisibleInventoryItemsAreInteractive();
+  if (DEV_START_AT_PANEL_TEST) {
+    hasActivatedFondo5CenterHotspot = true;
+    hasUnlockedFondo5Panel = true;
+    goToFondo5();
+    showPanelOverlay();
+  }
+}
+
+if (inventory) {
+  inventory.addEventListener("pointerdown", () => {
+    ensureVisibleInventoryItemsAreInteractive();
+  });
 }

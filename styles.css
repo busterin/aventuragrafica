@@ -13,6 +13,16 @@
         --guardian-left-fondo5: 50%;
         --anillo-left: 50%;
         --anillo-top: 74.75%;
+        --panel-wrap-width: 460px;
+        --panel-letter-size: 52px;
+        --panel-a-left: 120px;
+        --panel-a-top: 112px;
+        --panel-b-left: 282px;
+        --panel-b-top: 112px;
+        --panel-c-left: 120px;
+        --panel-c-top: 232px;
+        --panel-d-left: 282px;
+        --panel-d-top: 232px;
       }
 
       * {
@@ -78,6 +88,7 @@
 
       #scene.in-fondo5 #guardian {
         height: 45%;
+        z-index: 4;
       }
 
       #gaston {
@@ -143,6 +154,47 @@
         width: auto;
         left: 30%;
         bottom: 140px;
+        transform: translateX(-50%);
+        z-index: 9;
+        pointer-events: auto;
+        display: none;
+      }
+
+      #moneda-world {
+        height: 6%;
+        width: auto;
+        left: 22%;
+        bottom: 170px;
+        transform: translateX(-50%);
+        z-index: 6;
+        display: none;
+      }
+
+      #tarjeta-world {
+        height: 7%;
+        width: auto;
+        left: 29%;
+        bottom: 170px;
+        transform: translateX(-50%);
+        z-index: 6;
+        display: none;
+      }
+
+      #brocheinversion-world {
+        height: 3.8%;
+        width: auto;
+        left: 50%;
+        bottom: 32px;
+        transform: translateX(-50%);
+        z-index: 6;
+        display: none;
+      }
+
+      #brocheinteres-world {
+        height: 6%;
+        width: auto;
+        left: 47%;
+        bottom: 180px;
         transform: translateX(-50%);
         z-index: 6;
         display: none;
@@ -250,6 +302,19 @@
         -webkit-tap-highlight-color: transparent;
       }
 
+      #fondo5-hotspot-right {
+        position: absolute;
+        left: 80%;
+        top: 24%;
+        width: 12%;
+        height: 40%;
+        z-index: 7;
+        display: none;
+        cursor: pointer;
+        border: 2px dashed rgba(255, 255, 255, 0.9);
+        background: rgba(220, 30, 30, 0.25);
+      }
+
       #speech {
         position: absolute;
         z-index: 12;
@@ -335,6 +400,43 @@
         transform: rotate(45deg);
       }
 
+      #panel-overlay {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 14;
+        display: none;
+        pointer-events: none;
+      }
+
+      #panel-overlay.open {
+        display: block;
+      }
+
+      #panel-wrap {
+        position: relative;
+        width: var(--panel-wrap-width);
+      }
+
+      #panel-image {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      .panel-letter {
+        position: absolute;
+        width: var(--panel-letter-size);
+        height: auto;
+        object-fit: contain;
+      }
+
+      #panel-a { left: var(--panel-a-left); top: var(--panel-a-top); }
+      #panel-b { left: var(--panel-b-left); top: var(--panel-b-top); }
+      #panel-c { left: var(--panel-c-left); top: var(--panel-c-top); }
+      #panel-d { left: var(--panel-d-left); top: var(--panel-d-top); }
+
       #inventory {
         position: absolute;
         width: var(--inventory-width);
@@ -342,13 +444,18 @@
         right: 18px;
         bottom: 18px;
         z-index: 5;
+        overflow: visible;
       }
 
       #inventory-bg {
+        position: absolute;
+        inset: 0;
         width: 100%;
         height: 100%;
         object-fit: contain;
         display: block;
+        z-index: 0;
+        pointer-events: none;
       }
 
       .inventory-slot {
@@ -364,14 +471,21 @@
       #slot-1 { left: 10.2%; }
       #slot-2 { left: 24.3%; }
       #slot-3 { left: 38.4%; }
+      #slot-4 { left: 52.5%; }
+      #slot-5 { left: 66.6%; }
+      #slot-6 { left: 10.2%; top: 54%; }
+      #slot-7 { left: 24.3%; top: 54%; }
 
       .inventory-item {
+        position: relative;
+        z-index: 2;
         width: 70%;
         max-height: 50%;
         object-fit: contain;
         object-position: center;
         transform: translate(12%, 92%);
         display: none;
+        pointer-events: auto;
       }
 
       #anillo-item {
@@ -394,6 +508,24 @@
 
       #brebaje-item {
         transform: translate(58%, 78%);
+      }
+
+      #moneda-item {
+        transform: translate(82%, 116%);
+      }
+
+      #tarjeta-item {
+        width: 76%;
+        max-height: 56%;
+        transform: translate(58%, 122%);
+      }
+
+      #brocheinversion-item {
+        transform: translate(38%, 112%);
+      }
+
+      #brocheinteres-item {
+        transform: translate(585%, -118%);
       }
 
       .fallback {
@@ -465,6 +597,73 @@
         color: #2f1a0f;
         padding: 6px 14px;
         font-size: 15px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      #ending-overlay {
+        position: fixed;
+        inset: 0;
+        display: none;
+        z-index: 40;
+        pointer-events: auto;
+      }
+
+      #ending-overlay.open {
+        display: block;
+      }
+
+      #guardianes-logo {
+        position: absolute;
+        left: 50%;
+        top: 34%;
+        transform: translate(-50%, -50%);
+        width: min(62vw, 560px);
+        height: auto;
+        object-fit: contain;
+        pointer-events: none;
+      }
+
+      #abanca-logo {
+        position: absolute;
+        right: 22px;
+        bottom: 22px;
+        width: min(24vw, 320px);
+        height: auto;
+        object-fit: contain;
+        pointer-events: none;
+      }
+
+      #ending-message-box {
+        position: absolute;
+        left: 50%;
+        bottom: 24px;
+        transform: translateX(-50%);
+        width: min(92vw, 820px);
+        background: rgba(255, 255, 255, 0.95);
+        border: 3px solid #111;
+        border-radius: 18px;
+        padding: 14px 16px 12px;
+        text-align: center;
+        box-shadow: 0 16px 32px rgba(0, 0, 0, 0.35);
+        pointer-events: auto;
+      }
+
+      #ending-message-text {
+        margin: 0 0 12px;
+        color: #111;
+        font-size: clamp(16px, 2.1vw, 24px);
+        line-height: 1.28;
+        font-weight: 700;
+      }
+
+      #ending-web-btn {
+        border: 2px solid #111;
+        border-radius: 11px;
+        background: #f4be22;
+        color: #111;
+        padding: 8px 16px;
+        font-size: clamp(15px, 1.8vw, 20px);
         font-weight: 700;
         cursor: pointer;
       }

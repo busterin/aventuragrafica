@@ -18,12 +18,17 @@
         <img id="bici" class="entity" src="images/bici.png" alt="Bici" />
         <img id="vendedora" class="entity" src="images/vendedora.png" alt="Vendedora" />
         <img id="brebaje" class="entity" src="images/brebaje.png" alt="Brebaje" />
+        <img id="moneda-world" class="entity" src="images/moneda.png" alt="Moneda" />
+        <img id="tarjeta-world" class="entity" src="images/tarjeta.png" alt="Tarjeta" />
+        <img id="brocheinversion-world" class="entity" src="images/brocheinversion.png" alt="Broche inversion" />
+        <img id="brocheinteres-world" class="entity" src="images/brocheinteres.png" alt="Broche interes" />
         <div id="fondo2-hotspot-left" aria-label="Zona clicable fondo 2 izquierda"></div>
         <div id="fondo3-hotspot-left" aria-label="Zona clicable fondo 3 izquierda"></div>
         <div id="fondo3-hotspot" aria-label="Zona clicable fondo 3"></div>
         <div id="fondo4-hotspot-left-bottom" aria-label="Zona clicable fondo 4 izquierda abajo"></div>
         <div id="fondo5-hotspot-left" aria-label="Zona clicable fondo 5 izquierda"></div>
         <div id="fondo5-hotspot-center" aria-label="Zona clicable fondo 5 centro"></div>
+        <div id="fondo5-hotspot-right" aria-label="Zona clicable fondo 5 derecha"></div>
         <img id="anillo-world" class="entity" src="images/anillo.png" alt="Anillo" />
 
         <div id="speech">
@@ -32,15 +37,33 @@
           <button id="speech-next-btn" type="button">Continuar</button>
         </div>
 
+        <div id="panel-overlay" aria-hidden="true">
+          <div id="panel-wrap">
+            <img id="panel-image" src="images/panel.png" alt="Panel" />
+            <img id="panel-a" class="panel-letter" src="images/A.png" alt="A" />
+            <img id="panel-b" class="panel-letter" src="images/B.png" alt="B" />
+            <img id="panel-c" class="panel-letter" src="images/C.png" alt="C" />
+            <img id="panel-d" class="panel-letter" src="images/D.png" alt="D" />
+          </div>
+        </div>
+
         <div id="inventory" aria-label="Inventario">
           <img id="inventory-bg" src="images/inventario.png" alt="Inventario" />
           <div id="slot-1" class="inventory-slot"></div>
           <div id="slot-2" class="inventory-slot"></div>
           <div id="slot-3" class="inventory-slot"></div>
+          <div id="slot-4" class="inventory-slot"></div>
+          <div id="slot-5" class="inventory-slot"></div>
+          <div id="slot-6" class="inventory-slot"></div>
+          <div id="slot-7" class="inventory-slot"></div>
           <img id="anillo-item" class="inventory-item" src="images/anillo.png" alt="Anillo en inventario" draggable="true" />
           <img id="factura-item" class="inventory-item" src="images/factura.png" alt="Factura en inventario" draggable="true" />
           <img id="llave-item" class="inventory-item" src="images/llave.png" alt="Llave en inventario" draggable="true" />
           <img id="brebaje-item" class="inventory-item" src="images/brebaje.png" alt="Brebaje en inventario" draggable="true" />
+          <img id="moneda-item" class="inventory-item" src="images/moneda.png" alt="Moneda en inventario" draggable="true" />
+          <img id="tarjeta-item" class="inventory-item" src="images/tarjeta.png" alt="Tarjeta en inventario" draggable="true" />
+          <img id="brocheinversion-item" class="inventory-item" src="images/brocheinversion.png" alt="Broche inversion en inventario" draggable="true" />
+          <img id="brocheinteres-item" class="inventory-item" src="images/brocheinteres.png" alt="Broche interes en inventario" draggable="true" />
         </div>
 
         <button id="next-arrow" type="button" aria-label="Ir a fondo 2"></button>
@@ -53,6 +76,15 @@
         <img id="item-modal-image" src="images/anillo.png" alt="Anillo ampliado" />
         <p id="item-modal-text">Un anillo de origen desconocido.<br>Parece ser de gran valor.</p>
         <button id="item-modal-close" type="button">Cerrar</button>
+      </div>
+    </div>
+
+    <div id="ending-overlay" aria-hidden="true">
+      <img id="guardianes-logo" src="images/guardianes.png" alt="Guardianes del Tesoro" />
+      <img id="abanca-logo" src="images/abanca.png" alt="Abanca" />
+      <div id="ending-message-box">
+        <p id="ending-message-text">¡Gracias por completar este juego con los Guardianes del Tesoro! Puedes jugar a más juegos como este en nuestra web.</p>
+        <button id="ending-web-btn" type="button">Ir a la web</button>
       </div>
     </div>
 
