@@ -82,7 +82,20 @@ const PRESENTADOR_DIALOGUE = [
 const PRESENTADOR_FINAL_DIALOGUE = [
   "¡Buen trabajo, guardianes! Habéis finalizado la Competición Financiera antes que nadie. Os esperamos en la Competición del año que viene."
 ];
-const ARDILLA_GUARDIANA_DIALOGUE = {
+const ARDILLA_GUARDIANA_DIALOGUE_FONDO1 = {
+  prompt: "¿Necesitas información?",
+  options: [
+    {
+      label: "¿Que es una factura?",
+      response: "Una factura es el documento legal que certifica una compraventa, detallando los productos o servicios, sus precios y los impuestos aplicados para justificar el gasto y el cobro."
+    },
+    {
+      label: "¿Que es un ticket?",
+      response: "El ticket es un comprobante de pago simplificado y anónimo para el consumidor final, ideal para compras rápidas y gestionar garantías. A diferencia de la factura, no requiere los datos fiscales del comprador, lo que lo hace ágil pero insuficiente para que una empresa pueda deducir impuestos."
+    }
+  ]
+};
+const ARDILLA_GUARDIANA_DIALOGUE_FONDO3 = {
   prompt: "¿Necesitas información?",
   options: [
     {
@@ -1141,6 +1154,11 @@ function startBiciTravelDialogue() {
   }
 }
 
+function getArdillaDialogueForCurrentFondo() {
+  if (isInFondo3()) return ARDILLA_GUARDIANA_DIALOGUE_FONDO3;
+  return ARDILLA_GUARDIANA_DIALOGUE_FONDO1;
+}
+
 function setBiciLeft(leftValue) {
   if (!bici) return;
   bici.style.left = leftValue;
@@ -1911,14 +1929,15 @@ if (ardillaGuardiana) {
     pendingSpeechForTele = false;
     moveGuardianInFrontOf(ardillaGuardiana, false, ARDILLA_DIALOGUE_GAP);
     if (isGuardianBeside(ardillaGuardiana)) {
+      const ardillaDialogue = getArdillaDialogueForCurrentFondo();
       faceGuardianToward(ardillaGuardiana);
       faceArdillaTowardGuardian();
       startChoiceDialogue(
         ardillaGuardiana,
-        ARDILLA_GUARDIANA_DIALOGUE.prompt,
-        ARDILLA_GUARDIANA_DIALOGUE.options
+        ardillaDialogue.prompt,
+        ardillaDialogue.options
       );
-    pendingSpeechForArdillaGuardiana = false;
+      pendingSpeechForArdillaGuardiana = false;
     }
   });
 }
@@ -2363,12 +2382,13 @@ if (guardian) {
       && ardillaGuardiana
       && isGuardianBeside(ardillaGuardiana)
     ) {
+      const ardillaDialogue = getArdillaDialogueForCurrentFondo();
       faceGuardianToward(ardillaGuardiana);
       faceArdillaTowardGuardian();
       startChoiceDialogue(
         ardillaGuardiana,
-        ARDILLA_GUARDIANA_DIALOGUE.prompt,
-        ARDILLA_GUARDIANA_DIALOGUE.options
+        ardillaDialogue.prompt,
+        ardillaDialogue.options
       );
       pendingSpeechForPresentador = false;
       pendingSpeechForArdillaGuardiana = false;
