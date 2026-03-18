@@ -4,24 +4,24 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Aventura Grafica - Prueba</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=20260318-2" />
   </head>
   <body>
     <div id="scene-viewport">
       <div id="scene" aria-label="Escena">
-        <img id="background" src="images/fondo1.png" alt="Fondo" />
+        <img id="background" src="images/fondo1.webp" alt="Fondo" />
 
-        <img id="guardian" class="entity" src="images/guardian.png" alt="Guardian" />
-        <img id="gaston" class="entity" src="images/gaston.png" alt="Gaston" />
-        <img id="tele" class="entity" src="images/tele.png" alt="Tele" />
-        <img id="ardillaguardiana" class="entity" src="images/ardillaguardiana.png" alt="Ardilla Guardiana" />
-        <img id="bici" class="entity" src="images/bici.png" alt="Bici" />
-        <img id="vendedora" class="entity" src="images/vendedora.png" alt="Vendedora" />
-        <img id="brebaje" class="entity" src="images/brebaje.png" alt="Brebaje" />
-        <img id="moneda-world" class="entity" src="images/moneda.png" alt="Moneda" />
-        <img id="tarjeta-world" class="entity" src="images/tarjeta.png" alt="Tarjeta" />
-        <img id="brocheinversion-world" class="entity" src="images/brocheinversion.png" alt="Broche inversion" />
-        <img id="brocheinteres-world" class="entity" src="images/brocheinteres.png" alt="Broche interes" />
+        <img id="guardian" class="entity" src="images/guardian.webp" alt="Guardian" />
+        <img id="presentador" class="entity" src="images/presentador.png" alt="Presentador" />
+        <img id="tele" class="entity" src="images/tele.webp" alt="Tele" />
+        <img id="ardillaguardiana" class="entity" src="images/ardillaguardiana.webp" alt="Ardilla Guardiana" />
+        <img id="bici" class="entity" src="images/bici.webp" alt="Bici" />
+        <img id="vendedora" class="entity" src="images/vendedora.webp" alt="Vendedora" />
+        <img id="brebaje" class="entity" src="images/brebaje.webp" alt="Brebaje" />
+        <img id="moneda-world" class="entity" src="images/moneda.webp" alt="Moneda" />
+        <img id="tarjeta-world" class="entity" src="images/tarjeta.webp" alt="Tarjeta" />
+        <img id="brocheinversion-world" class="entity" src="images/brocheinversion.webp" alt="Broche inversion" />
+        <img id="brocheinteres-world" class="entity" src="images/brocheinteres.webp" alt="Broche interes" />
         <div id="fondo2-hotspot-left" aria-label="Zona clicable fondo 2 izquierda"></div>
         <div id="fondo3-hotspot-left" aria-label="Zona clicable fondo 3 izquierda"></div>
         <div id="fondo3-hotspot" aria-label="Zona clicable fondo 3"></div>
@@ -29,7 +29,7 @@
         <div id="fondo5-hotspot-left" aria-label="Zona clicable fondo 5 izquierda"></div>
         <div id="fondo5-hotspot-center" aria-label="Zona clicable fondo 5 centro"></div>
         <div id="fondo5-hotspot-right" aria-label="Zona clicable fondo 5 derecha"></div>
-        <img id="anillo-world" class="entity" src="images/anillo.png" alt="Anillo" />
+        <img id="anillo-world" class="entity" src="images/anillo.webp" alt="Anillo" />
 
         <div id="speech">
           <p id="speech-text">¡Hola, guardiana!</p>
@@ -39,16 +39,16 @@
 
         <div id="panel-overlay" aria-hidden="true">
           <div id="panel-wrap">
-            <img id="panel-image" src="images/panel.png" alt="Panel" />
-            <img id="panel-a" class="panel-letter" src="images/A.png" alt="A" />
-            <img id="panel-b" class="panel-letter" src="images/B.png" alt="B" />
-            <img id="panel-c" class="panel-letter" src="images/C.png" alt="C" />
-            <img id="panel-d" class="panel-letter" src="images/D.png" alt="D" />
+            <img id="panel-image" src="images/panel.webp" alt="Panel" />
+            <img id="panel-a" class="panel-letter" src="images/A.webp" alt="A" />
+            <img id="panel-b" class="panel-letter" src="images/B.webp" alt="B" />
+            <img id="panel-c" class="panel-letter" src="images/C.webp" alt="C" />
+            <img id="panel-d" class="panel-letter" src="images/D.webp" alt="D" />
           </div>
         </div>
 
         <div id="inventory" aria-label="Inventario">
-          <img id="inventory-bg" src="images/inventario.png" alt="Inventario" />
+          <img id="inventory-bg" src="images/inventario.webp" alt="Inventario" />
           <div id="slot-1" class="inventory-slot"></div>
           <div id="slot-2" class="inventory-slot"></div>
           <div id="slot-3" class="inventory-slot"></div>
@@ -56,16 +56,16 @@
           <div id="slot-5" class="inventory-slot"></div>
           <div id="slot-6" class="inventory-slot"></div>
           <div id="slot-7" class="inventory-slot"></div>
-          <img id="anillo-item" class="inventory-item" src="images/anillo.png" alt="Anillo en inventario" draggable="true" />
-          <img id="factura-item" class="inventory-item" src="images/factura.png" alt="Factura en inventario" draggable="true" />
-          <img id="llave-item" class="inventory-item" src="images/llave.png" alt="Llave en inventario" draggable="true" />
-          <img id="brebaje-item" class="inventory-item" src="images/brebaje.png" alt="Brebaje en inventario" draggable="true" />
-          <img id="moneda-item" class="inventory-item" src="images/moneda.png" alt="Moneda en inventario" draggable="true" />
-          <img id="tarjeta-item" class="inventory-item" src="images/tarjeta.png" alt="Tarjeta en inventario" draggable="true" />
-          <img id="brocheinversion-item" class="inventory-item" src="images/brocheinversion.png" alt="Broche inversion en inventario" draggable="true" />
-          <img id="brocheinteres-item" class="inventory-item" src="images/brocheinteres.png" alt="Broche interes en inventario" draggable="true" />
+          <img id="anillo-item" class="inventory-item" src="images/anillo.webp" alt="Anillo en inventario" draggable="true" />
+          <img id="factura-item" class="inventory-item" src="images/factura.webp" alt="Factura en inventario" draggable="true" />
+          <img id="llave-item" class="inventory-item" src="images/llave.webp" alt="Llave en inventario" draggable="true" />
+          <img id="brebaje-item" class="inventory-item" src="images/brebaje.webp" alt="Brebaje en inventario" draggable="true" />
+          <img id="moneda-item" class="inventory-item" src="images/moneda.webp" alt="Moneda en inventario" draggable="true" />
+          <img id="tarjeta-item" class="inventory-item" src="images/tarjeta.webp" alt="Tarjeta en inventario" draggable="true" />
+          <img id="brocheinversion-item" class="inventory-item" src="images/brocheinversion.webp" alt="Broche inversion en inventario" draggable="true" />
+          <img id="brocheinteres-item" class="inventory-item" src="images/brocheinteres.webp" alt="Broche interes en inventario" draggable="true" />
         </div>
-        <img id="mobile-hint-btn" src="images/movil.png" alt="Móvil de pistas" />
+        <img id="mobile-hint-btn" src="images/movil.webp" alt="Móvil de pistas" />
 
         <button id="next-arrow" type="button" aria-label="Ir a fondo 2"></button>
         <button id="prev-arrow" type="button" aria-label="Volver a fondo 1"></button>
@@ -74,7 +74,7 @@
 
     <div id="item-modal" aria-hidden="true">
       <div id="item-modal-content" role="dialog" aria-modal="true" aria-label="Detalle del objeto">
-        <img id="item-modal-image" src="images/anillo.png" alt="Anillo ampliado" />
+        <img id="item-modal-image" src="images/anillo.webp" alt="Anillo ampliado" />
         <p id="item-modal-text">Un anillo de origen desconocido.<br>Parece ser de gran valor.</p>
         <button id="item-modal-close" type="button">Cerrar</button>
       </div>
@@ -82,7 +82,7 @@
 
     <div id="hint-modal" aria-hidden="true">
       <div id="hint-modal-content" role="dialog" aria-modal="true" aria-label="Pistas de la base">
-        <img id="hint-base-image" src="images/base.png" alt="Base de los Guardianes" />
+        <img id="hint-base-image" src="images/base.webp" alt="Base de los Guardianes" />
         <p id="hint-modal-text">Aquí la base de los Guardianes ¿Necesitas una pista para poder avanzar en tu aventura?</p>
         <div id="hint-modal-options">
           <button id="hint-yes-btn" type="button">Si</button>
@@ -93,14 +93,14 @@
     </div>
 
     <div id="ending-overlay" aria-hidden="true">
-      <img id="guardianes-logo" src="images/guardianes.png" alt="Guardianes del Tesoro" />
-      <img id="abanca-logo" src="images/abanca.png" alt="Abanca" />
+      <img id="guardianes-logo" src="images/guardianes.webp" alt="Guardianes del Tesoro" />
+      <img id="abanca-logo" src="images/abanca.webp" alt="Abanca" />
       <div id="ending-message-box">
         <p id="ending-message-text">¡Gracias por completar este juego con los Guardianes del Tesoro! Puedes jugar a más juegos como este en nuestra web.</p>
         <button id="ending-web-btn" type="button">Ir a la web</button>
       </div>
     </div>
 
-    <script src="main.js"></script>
+    <script src="main.js?v=20260318-2"></script>
   </body>
 </html>

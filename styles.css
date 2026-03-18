@@ -3,7 +3,7 @@
         --character-height: 37.5%;
         --character-bottom: 34px;
         --guardian-left: 32.38%;
-        --gaston-left: 64.76%;
+        --presentador-left: 63.5%;
         --tele-left: 76.5%;
         --ardillaguardiana-left: 80%;
         --bici-left-fondo2: 65%;
@@ -90,22 +90,15 @@
         height: 45%;
         z-index: 4;
       }
-
-      #scene.in-fondo5 #gaston {
-        height: 45%;
-      }
-
-      #gaston {
+      #presentador {
         height: var(--character-height);
         width: auto;
-        left: var(--gaston-left);
+        left: var(--presentador-left);
         bottom: var(--character-bottom);
         transform: translateX(-50%);
-        animation: gaston-breathe 2.8s ease-in-out infinite;
-        will-change: filter;
         z-index: 6;
+        pointer-events: auto;
       }
-
       #tele {
         height: 22%;
         width: auto;
@@ -826,13 +819,4 @@
         25% { transform: translateX(-4px) rotate(-3deg); }
         75% { transform: translateX(4px) rotate(3deg); }
         100% { transform: translateX(0); }
-      }
-
-      @keyframes gaston-breathe {
-        0%, 100% {
-          filter: brightness(1);
-        }
-        50% {
-          filter: brightness(1.08);
-        }
       }

@@ -2,7 +2,7 @@ const scene = document.getElementById("scene");
 const sceneViewport = document.getElementById("scene-viewport");
 const background = document.getElementById("background");
 const guardian = document.getElementById("guardian");
-const gaston = document.getElementById("gaston");
+const presentador = document.getElementById("presentador");
 const tele = document.getElementById("tele");
 const ardillaGuardiana = document.getElementById("ardillaguardiana");
 const bici = document.getElementById("bici");
@@ -57,13 +57,13 @@ const hintNoBtn = document.getElementById("hint-no-btn");
 const hintCloseBtn = document.getElementById("hint-close-btn");
 const endingOverlay = document.getElementById("ending-overlay");
 const endingWebBtn = document.getElementById("ending-web-btn");
-const GASTON_GAP = 12;
+const INTERACTION_GAP = 12;
 const ARDILLA_DIALOGUE_GAP = 4;
-const GUARDIAN_IDLE_SRC = "images/guardian.png";
+const GUARDIAN_IDLE_SRC = "images/guardian.webp";
 const GUARDIAN_WALK_FRAMES = [
-  "images/guardian2.png",
-  "images/guardian3.png",
-  "images/guardian4.png"
+  "images/guardian2.webp",
+  "images/guardian3.webp",
+  "images/guardian4.webp"
 ];
 const GUARDIAN_WALK_FRAME_MS = 120;
 const GUARDIAN_MOVE_DURATION_LONG_MS = 1400;
@@ -74,13 +74,10 @@ const TRAVEL_SPEECH_NEXT_LABEL = "Viajar";
 const ENTER_SPEECH_NEXT_LABEL = "Entrar";
 const TERMINAL_SPEECH_NEXT_LABEL = "Introducir número";
 const SPEECH_BASELINE_OFFSET_PX = 8;
-const GASTON_DIALOGUE = [
+const PRESENTADOR_DIALOGUE = [
   "¡Hola, guardiana! Muchas gracias por acudir. Hoy es la Competición Financiera, un juego muy famoso en la ciudad de Aurópolis.",
   "El objetivo es recorrer esta zona delimitada de la ciudad donde encontrarás distintos objetos como una factura o una llave, que os irán guiando hasta encontrar una sala oculta, la sala del tesoro.",
-  "Debemos ser los primeros en lograr entrar para hacernos con la victoria. ¡Un reto digno de los Guardianes del Tesoro!"
-];
-const GASTON_FINAL_DIALOGUE = [
-  "¡Buen trabajo, guardianes! Habéis finalizado la Competición Financiera antes que nadie. Os esperamos en la Competición del año que viene."
+  "Tenéis que ser los primeros en lograr entrar para hacernos con la victoria. ¡Un reto digno de los Guardianes del Tesoro!"
 ];
 const ARDILLA_GUARDIANA_DIALOGUE = {
   prompt: "¿Necesitas información?",
@@ -146,87 +143,87 @@ const FONDO5_CENTER_HOTSPOT_DIALOGUE = [
 ];
 const FONDO5_RIGHT_HOTSPOT_DIALOGUE = ["¿Que es esto?"];
 const ANILLO_MODAL = {
-  imageSrc: "images/anillo.png",
+  imageSrc: "images/anillo.webp",
   imageAlt: "Anillo ampliado",
   textHtml: "Un anillo de origen desconocido.<br>Parece ser de gran valor."
 };
 const FACTURA_MODAL = {
-  imageSrc: "images/factura.png",
+  imageSrc: "images/factura.webp",
   imageAlt: "Factura ampliada",
   textHtml: "Una de las facturas necesarias para completar la Competición Financiera.<br>Es un recibo de la luz."
 };
 const FACTURA_MODAL_FONDO5 = {
-  imageSrc: "images/factura.png",
+  imageSrc: "images/factura.webp",
   imageAlt: "Factura ampliada",
   textHtml: "Con la luz de la sala del tesoro, podemos leer algo oculto en la factura: Cuatro elementos necesitarás para la prueba superar."
 };
 const LLAVE_MODAL = {
-  imageSrc: "images/llave.png",
+  imageSrc: "images/llave.webp",
   imageAlt: "Llave ampliada",
   textHtml: "¿Qué abrira esta llave?"
 };
 const BREBAJE_MODAL = {
-  imageSrc: "images/brebaje.png",
+  imageSrc: "images/brebaje.webp",
   imageAlt: "Brebaje ampliado",
   textHtml: "Un brebaje natural creado con flores silvestres. Claramente alguien lo ha dejado aquí para la Competición Financiera."
 };
 const MONEDA_MODAL = {
-  imageSrc: "images/moneda.png",
+  imageSrc: "images/moneda.webp",
   imageAlt: "Moneda ampliada",
   textHtml: "Una moneda de la Competición Financiera. Representa el dinero en efectivo:<br>Es el dinero en forma física (billetes y monedas) que se utiliza para pagar bienes y servicios de manera inmediata, tangible y sin intermediarios electrónicos. En la parte trasera tiene grabada una A."
 };
 const TARJETA_MODAL = {
-  imageSrc: "images/tarjeta.png",
+  imageSrc: "images/tarjeta.webp",
   imageAlt: "Tarjeta ampliada",
   textHtml: "Una tarjeta de crédito que forma parte de la Competición Financiera. El dinero que gastamos con una tarjeta de crédito viene a ser un préstamo inmediato del banco que te permite gastar dinero que no tienes en ese momento, con la condición de devolverlo en una fecha pactada para evitar intereses. Tiene escrita la letra B."
 };
 const BROCHEINVERSION_MODAL = {
-  imageSrc: "images/brocheinversion.png",
+  imageSrc: "images/brocheinversion.webp",
   imageAlt: "Broche inversion ampliado",
   textHtml: "Un broche de la Competición Financiera. Representa el concepto de inversión: Invertir es emplear hoy tu dinero en un activo (como acciones, negocios o propiedades) con la expectativa de obtener un beneficio o ganancia en el futuro, aceptando siempre un nivel de riesgo. En la parte trasera tiene grabada una C."
 };
 const BROCHEINTERES_MODAL = {
-  imageSrc: "images/brocheinteres.png",
+  imageSrc: "images/brocheinteres.webp",
   imageAlt: "Broche interes ampliado",
   textHtml: "Un broche de la Competición Financiera. Representa el concepto de interés: el interés es el coste que se paga por utilizar dinero ajeno o la ganancia que se recibe por prestarlo o invertirlo. Se define como el precio del tiempo y del riesgo, calculado habitualmente como un porcentaje del capital original que determina cuánto crece una deuda o un ahorro en un periodo determinado. Tiene grabado una D."
 };
 const ANILLO_OBTAINED_MODAL = {
-  imageSrc: "images/anillo.png",
+  imageSrc: "images/anillo.webp",
   imageAlt: "Anillo obtenido",
   textHtml: "¡Has obtenido un anillo!"
 };
 const FACTURA_OBTAINED_MODAL = {
-  imageSrc: "images/factura.png",
+  imageSrc: "images/factura.webp",
   imageAlt: "Factura obtenida",
   textHtml: "¡Has obtenido una factura!"
 };
 const LLAVE_OBTAINED_MODAL = {
-  imageSrc: "images/llave.png",
+  imageSrc: "images/llave.webp",
   imageAlt: "Llave obtenida",
   textHtml: "¡Has obtenido una llave!"
 };
 const BREBAJE_OBTAINED_MODAL = {
-  imageSrc: "images/brebaje.png",
+  imageSrc: "images/brebaje.webp",
   imageAlt: "Brebaje obtenido",
   textHtml: "¡Has obtenido un brebaje!"
 };
 const MONEDA_OBTAINED_MODAL = {
-  imageSrc: "images/moneda.png",
+  imageSrc: "images/moneda.webp",
   imageAlt: "Moneda obtenida",
   textHtml: "¡Has obtenido una moneda!"
 };
 const TARJETA_OBTAINED_MODAL = {
-  imageSrc: "images/tarjeta.png",
+  imageSrc: "images/tarjeta.webp",
   imageAlt: "Tarjeta obtenida",
   textHtml: "¡Has obtenido tarjeta de crédito!"
 };
 const BROCHEINVERSION_OBTAINED_MODAL = {
-  imageSrc: "images/brocheinversion.png",
+  imageSrc: "images/brocheinversion.webp",
   imageAlt: "Broche inversion obtenido",
   textHtml: "¡Has obtenido un broche de inversión!"
 };
 const BROCHEINTERES_OBTAINED_MODAL = {
-  imageSrc: "images/brocheinteres.png",
+  imageSrc: "images/brocheinteres.webp",
   imageAlt: "Broche interes obtenido",
   textHtml: "¡Has obtenido un broche de interés!"
 };
@@ -268,7 +265,7 @@ let hasTriggeredEnding = false;
 let pendingVendedoraDismissAfterDialogue = false;
 let speechAnchor = null;
 let dragProxy = null;
-let pendingSpeechForGaston = false;
+let pendingSpeechForPresentador = false;
 let pendingSpeechForArdillaGuardiana = false;
 let pendingSpeechForBici = false;
 let pendingSpeechForTele = false;
@@ -293,7 +290,6 @@ let pendingTerminalSuccessDialogue = false;
 let pendingTerminalSuccessAnchor = null;
 let pendingBrocheinversionFromFondo5Right = false;
 let pendingPanelCompletionHeroLine = false;
-let pendingEndingAfterGastonDialogue = false;
 let hintModalMode = "prompt";
 let confettiCanvas = null;
 let confettiContext = null;
@@ -384,6 +380,50 @@ function startConfettiCelebration() {
   };
   confettiAnimationId = window.requestAnimationFrame(animate);
 }
+const PRELOAD_EXTRA_IMAGE_SRCS = [
+  "images/fondo1.webp",
+  "images/fondo2.webp",
+  "images/fondo3.webp",
+  "images/fondo4.webp",
+  "images/fondo5.webp",
+  "images/guardian.webp",
+  ...GUARDIAN_WALK_FRAMES
+];
+let hasStartedAssetWarmup = false;
+
+function warmupImageSource(src) {
+  if (!src) return Promise.resolve();
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.decoding = "async";
+    img.loading = "eager";
+    img.src = src;
+    const done = () => resolve();
+    if (typeof img.decode === "function") {
+      img.decode().then(done).catch(done);
+      return;
+    }
+    if (img.complete) {
+      done();
+      return;
+    }
+    img.addEventListener("load", done, { once: true });
+    img.addEventListener("error", done, { once: true });
+  });
+}
+
+function warmupGameAssets() {
+  if (hasStartedAssetWarmup) return;
+  hasStartedAssetWarmup = true;
+  const allSources = new Set(PRELOAD_EXTRA_IMAGE_SRCS);
+  const inlineImages = document.querySelectorAll("img[src]");
+  for (const img of inlineImages) {
+    const src = img.getAttribute("src");
+    if (src) allSources.add(src);
+  }
+  const tasks = [...allSources].map((src) => warmupImageSource(src));
+  Promise.allSettled(tasks).catch(() => {});
+}
 const TRANSPARENT_DRAG_IMAGE = new Image();
 TRANSPARENT_DRAG_IMAGE.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
 const BASE_WIDTH = 1328;
@@ -460,28 +500,29 @@ function hidePanelOverlay() {
 }
 
 addFallbackOnError("background", "fondo no encontrado");
-addFallbackOnError("anillo-world", "anillo.png no encontrado");
-addFallbackOnError("anillo-item", "anillo.png no encontrado");
-addFallbackOnError("factura-item", "factura.png no encontrado");
-addFallbackOnError("llave-item", "llave.png no encontrado");
-addFallbackOnError("brebaje-item", "brebaje.png no encontrado");
-addFallbackOnError("ardillaguardiana", "ardillaguardiana.png no encontrado");
-addFallbackOnError("bici", "bici.png no encontrado");
-addFallbackOnError("tele", "tele.png no encontrado");
-addFallbackOnError("vendedora", "vendedora.png no encontrado");
-addFallbackOnError("brebaje", "brebaje.png no encontrado");
-addFallbackOnError("moneda-world", "moneda.png no encontrado");
-addFallbackOnError("tarjeta-world", "tarjeta.png no encontrado");
-addFallbackOnError("brocheinversion-world", "brocheinversion.png no encontrado");
-addFallbackOnError("brocheinteres-world", "brocheinteres.png no encontrado");
-addFallbackOnError("moneda-item", "moneda.png no encontrado");
-addFallbackOnError("tarjeta-item", "tarjeta.png no encontrado");
-addFallbackOnError("brocheinversion-item", "brocheinversion.png no encontrado");
-addFallbackOnError("brocheinteres-item", "brocheinteres.png no encontrado");
-addFallbackOnError("mobile-hint-btn", "movil.png no encontrado");
-addFallbackOnError("hint-base-image", "base.png no encontrado");
-addFallbackOnError("guardianes-logo", "guardianes.png no encontrado");
-addFallbackOnError("abanca-logo", "abanca.png no encontrado");
+addFallbackOnError("presentador", "presentador.png no encontrado");
+addFallbackOnError("anillo-world", "anillo.webp no encontrado");
+addFallbackOnError("anillo-item", "anillo.webp no encontrado");
+addFallbackOnError("factura-item", "factura.webp no encontrado");
+addFallbackOnError("llave-item", "llave.webp no encontrado");
+addFallbackOnError("brebaje-item", "brebaje.webp no encontrado");
+addFallbackOnError("ardillaguardiana", "ardillaguardiana.webp no encontrado");
+addFallbackOnError("bici", "bici.webp no encontrado");
+addFallbackOnError("tele", "tele.webp no encontrado");
+addFallbackOnError("vendedora", "vendedora.webp no encontrado");
+addFallbackOnError("brebaje", "brebaje.webp no encontrado");
+addFallbackOnError("moneda-world", "moneda.webp no encontrado");
+addFallbackOnError("tarjeta-world", "tarjeta.webp no encontrado");
+addFallbackOnError("brocheinversion-world", "brocheinversion.webp no encontrado");
+addFallbackOnError("brocheinteres-world", "brocheinteres.webp no encontrado");
+addFallbackOnError("moneda-item", "moneda.webp no encontrado");
+addFallbackOnError("tarjeta-item", "tarjeta.webp no encontrado");
+addFallbackOnError("brocheinversion-item", "brocheinversion.webp no encontrado");
+addFallbackOnError("brocheinteres-item", "brocheinteres.webp no encontrado");
+addFallbackOnError("mobile-hint-btn", "movil.webp no encontrado");
+addFallbackOnError("hint-base-image", "base.webp no encontrado");
+addFallbackOnError("guardianes-logo", "guardianes.webp no encontrado");
+addFallbackOnError("abanca-logo", "abanca.webp no encontrado");
 
 function preloadGuardianWalkFrames() {
   for (const src of GUARDIAN_WALK_FRAMES) {
@@ -690,34 +731,24 @@ function faceArdillaTowardGuardian() {
   ardillaGuardiana.style.transform = `translateX(-330%) scaleX(${scale})`;
 }
 
-function moveGuardianTo(targetWorldX, avoidGaston = true) {
+function facePresentadorTowardGuardian() {
+  if (!presentador || !guardian) return;
+  const guardianRect = getWorldRect(guardian);
+  const presentadorRect = getWorldRect(presentador);
+  const guardianCenter = guardianRect.left + guardianRect.width / 2;
+  const presentadorCenter = presentadorRect.left + presentadorRect.width / 2;
+  const scale = guardianCenter < presentadorCenter ? -1 : 1;
+  presentador.style.transform = `translateX(-50%) scaleX(${scale})`;
+}
+
+function moveGuardianTo(targetWorldX) {
   const guardianWidth = guardian.offsetWidth;
-  const gastonRect = getWorldRect(gaston);
-  const gastonCenterX = gastonRect.left + gastonRect.width / 2;
   const currentLeft = guardian.offsetLeft;
 
   let clampedX = Math.min(
     BASE_WIDTH - guardianWidth,
     Math.max(0, targetWorldX - guardianWidth * 0.5)
   );
-
-  if (avoidGaston) {
-    const candidateLeft = clampedX;
-    const candidateRight = candidateLeft + guardianWidth;
-    const blockedLeft = gastonRect.left - GASTON_GAP;
-    const blockedRight = gastonRect.right + GASTON_GAP;
-    const overlapsGastonHorizontally = candidateRight > blockedLeft && candidateLeft < blockedRight;
-
-    if (overlapsGastonHorizontally) {
-      const sideX = targetWorldX < gastonCenterX
-        ? gastonRect.left - guardianWidth / 2 - GASTON_GAP
-        : gastonRect.right + guardianWidth / 2 + GASTON_GAP;
-      clampedX = Math.min(
-        BASE_WIDTH - guardianWidth,
-        Math.max(0, sideX - guardianWidth * 0.5)
-      );
-    }
-  }
 
   const finalCenterX = clampedX + guardianWidth / 2;
   const deltaLeft = clampedX - currentLeft;
@@ -742,7 +773,7 @@ function moveGuardianTo(targetWorldX, avoidGaston = true) {
   guardian.style.bottom = INITIAL_GUARDIAN_BOTTOM;
 }
 
-function moveGuardianInFrontOf(el, avoidGaston = true, gap = GASTON_GAP) {
+function moveGuardianInFrontOf(el, _avoidCollision = true, gap = INTERACTION_GAP) {
   const targetRect = getWorldRect(el);
   const guardianWidth = guardian.offsetWidth;
   const guardianCenter = guardian.offsetLeft + guardianWidth / 2;
@@ -751,7 +782,7 @@ function moveGuardianInFrontOf(el, avoidGaston = true, gap = GASTON_GAP) {
   const x = guardianCenter < targetCenter
     ? targetRect.left - guardianWidth / 2 - gap
     : targetRect.right + guardianWidth / 2 + gap;
-  moveGuardianTo(x, avoidGaston);
+  moveGuardianTo(x);
 }
 
 function isGuardianBeside(el) {
@@ -759,7 +790,7 @@ function isGuardianBeside(el) {
   const targetRect = getWorldRect(el);
   const leftDistance = Math.abs(targetRect.left - guardianRect.right);
   const rightDistance = Math.abs(guardianRect.left - targetRect.right);
-  const closeEnough = leftDistance <= GASTON_GAP + 8 || rightDistance <= GASTON_GAP + 8;
+  const closeEnough = leftDistance <= INTERACTION_GAP + 8 || rightDistance <= INTERACTION_GAP + 8;
   const verticalOverlap = guardianRect.bottom > targetRect.top && guardianRect.top < targetRect.bottom;
   return closeEnough && verticalOverlap;
 }
@@ -915,19 +946,6 @@ function startCenteredDialogue(lines) {
   renderActiveDialogue();
 }
 
-function placeGastonAtFondo5LeftHotspotRight() {
-  if (!gaston || !fondo5HotspotLeft) return;
-  const leftHotspotRect = getWorldRect(fondo5HotspotLeft);
-  const gastonWidth = gaston.offsetWidth || BASE_WIDTH * 0.12;
-  const desiredCenterX = Math.min(
-    BASE_WIDTH - gastonWidth * 0.5,
-    leftHotspotRect.right + gastonWidth * 0.68
-  );
-  gaston.style.left = `${(desiredCenterX / BASE_WIDTH) * 100}%`;
-  gaston.style.bottom = INITIAL_GUARDIAN_BOTTOM;
-  gaston.style.transform = "translateX(-50%) scaleX(-1)";
-}
-
 function showEndingOverlay() {
   if (!endingOverlay || hasTriggeredEnding) return;
   hasTriggeredEnding = true;
@@ -945,30 +963,6 @@ function showEndingOverlay() {
   }
   endingOverlay.classList.add("open");
   endingOverlay.setAttribute("aria-hidden", "false");
-}
-
-function startGastonFinalSequence() {
-  if (!isInFondo5()) return;
-  if (gaston) {
-    placeGastonAtFondo5LeftHotspotRight();
-    gaston.style.display = "block";
-  }
-  if (guardian && gaston) {
-    const guardianRect = getWorldRect(guardian);
-    const gastonRect = getWorldRect(gaston);
-    const guardianCenterX = guardianRect.left + guardianRect.width * 0.5;
-    const gastonCenterX = gastonRect.left + gastonRect.width * 0.5;
-    if (gastonCenterX < guardianCenterX) {
-      guardian.style.transform = "scaleX(-1)";
-    }
-  }
-  if (!gaston) {
-    showEndingOverlay();
-    return;
-  }
-  pendingEndingAfterGastonDialogue = true;
-  startConfettiCelebration();
-  startDialogue(gaston, GASTON_FINAL_DIALOGUE);
 }
 
 function startPanelCompletionSequence() {
@@ -1018,12 +1012,7 @@ function advanceActiveDialogue() {
     if (pendingPanelCompletionHeroLine && activeDialogue.anchor === guardian) {
       pendingPanelCompletionHeroLine = false;
       closeSpeech();
-      startGastonFinalSequence();
-      return;
-    }
-    if (pendingEndingAfterGastonDialogue && activeDialogue.anchor === gaston) {
-      pendingEndingAfterGastonDialogue = false;
-      closeSpeech();
+      startConfettiCelebration();
       showEndingOverlay();
       return;
     }
@@ -1046,25 +1035,25 @@ function advanceActiveDialogue() {
 function isInFondo2() {
   if (!background) return false;
   const src = background.getAttribute("src") || background.src || "";
-  return src.includes("images/fondo2.png");
+  return src.includes("images/fondo2.webp");
 }
 
 function isInFondo3() {
   if (!background) return false;
   const src = background.getAttribute("src") || background.src || "";
-  return src.includes("images/fondo3.png");
+  return src.includes("images/fondo3.webp");
 }
 
 function isInFondo4() {
   if (!background) return false;
   const src = background.getAttribute("src") || background.src || "";
-  return src.includes("images/fondo4.png");
+  return src.includes("images/fondo4.webp");
 }
 
 function isInFondo5() {
   if (!background) return false;
   const src = background.getAttribute("src") || background.src || "";
-  return src.includes("images/fondo5.png");
+  return src.includes("images/fondo5.webp");
 }
 
 function getCurrentFondoKey() {
@@ -1463,23 +1452,23 @@ function goToFondo2() {
   cancelPendingAnilloPickup();
   stopGuardianWalkAnimation();
   hidePanelOverlay();
-  pendingSpeechForGaston = false;
-  pendingSpeechForArdillaGuardiana = false;
-  pendingSpeechForBici = false;
-  pendingSpeechForTele = false;
-  pendingSpeechForFondo4Hotspot = false;
-  pendingSpeechForFondo5Hotspot = false;
-  pendingSpeechForFondo5CenterHotspot = false;
+    pendingSpeechForPresentador = false;
+    pendingSpeechForArdillaGuardiana = false;
+    pendingSpeechForBici = false;
+    pendingSpeechForTele = false;
+    pendingSpeechForFondo4Hotspot = false;
+    pendingSpeechForFondo5Hotspot = false;
+    pendingSpeechForFondo5CenterHotspot = false;
 
   snapGuardianToInitialPosition();
 
-  background.src = "images/fondo2.png";
+  background.src = "images/fondo2.webp";
   background.alt = "Fondo 2";
-  setSceneBackgroundClass("in-fondo2");
-
-  gaston.style.display = "none";
-  if (tele) {
+  setSceneBackgroundClass("in-fondo2");  if (tele) {
     tele.style.display = "none";
+  }
+  if (presentador) {
+    presentador.style.display = "none";
   }
   if (ardillaGuardiana) {
     ardillaGuardiana.style.display = "none";
@@ -1541,23 +1530,23 @@ function goToFondo3() {
   cancelPendingAnilloPickup();
   stopGuardianWalkAnimation();
   hidePanelOverlay();
-  pendingSpeechForGaston = false;
-  pendingSpeechForArdillaGuardiana = false;
-  pendingSpeechForBici = false;
-  pendingSpeechForTele = false;
-  pendingSpeechForFondo4Hotspot = false;
-  pendingSpeechForFondo5Hotspot = false;
-  pendingSpeechForFondo5CenterHotspot = false;
+    pendingSpeechForPresentador = false;
+    pendingSpeechForArdillaGuardiana = false;
+    pendingSpeechForBici = false;
+    pendingSpeechForTele = false;
+    pendingSpeechForFondo4Hotspot = false;
+    pendingSpeechForFondo5Hotspot = false;
+    pendingSpeechForFondo5CenterHotspot = false;
 
   snapGuardianToInitialPosition();
 
-  background.src = "images/fondo3.png";
+  background.src = "images/fondo3.webp";
   background.alt = "Fondo 3";
-  setSceneBackgroundClass("in-fondo3");
-
-  gaston.style.display = "none";
-  if (tele) {
+  setSceneBackgroundClass("in-fondo3");  if (tele) {
     tele.style.display = "none";
+  }
+  if (presentador) {
+    presentador.style.display = "none";
   }
   if (ardillaGuardiana) {
     ardillaGuardiana.style.display = "block";
@@ -1622,15 +1611,15 @@ function goToFondo4(fromFondo5 = false) {
   cancelPendingAnilloPickup();
   stopGuardianWalkAnimation();
   hidePanelOverlay();
-  pendingSpeechForGaston = false;
-  pendingSpeechForArdillaGuardiana = false;
-  pendingSpeechForBici = false;
-  pendingSpeechForTele = false;
-  pendingSpeechForFondo4Hotspot = false;
-  pendingSpeechForFondo5Hotspot = false;
-  pendingSpeechForFondo5CenterHotspot = false;
+    pendingSpeechForPresentador = false;
+    pendingSpeechForArdillaGuardiana = false;
+    pendingSpeechForBici = false;
+    pendingSpeechForTele = false;
+    pendingSpeechForFondo4Hotspot = false;
+    pendingSpeechForFondo5Hotspot = false;
+    pendingSpeechForFondo5CenterHotspot = false;
 
-  background.src = "images/fondo4.png";
+  background.src = "images/fondo4.webp";
   background.alt = "Fondo 4";
   setSceneBackgroundClass("in-fondo4");
 
@@ -1638,11 +1627,11 @@ function goToFondo4(fromFondo5 = false) {
     fromFondo5 ? FONDO4_GUARDIAN_LEFT_FROM_FONDO5 : FONDO4_GUARDIAN_LEFT,
     INITIAL_GUARDIAN_BOTTOM
   );
-  guardian.style.transform = "scaleX(-1)";
-
-  gaston.style.display = "none";
-  if (tele) {
+  guardian.style.transform = "scaleX(-1)";  if (tele) {
     tele.style.display = "none";
+  }
+  if (presentador) {
+    presentador.style.display = "none";
   }
   if (ardillaGuardiana) {
     ardillaGuardiana.style.display = "none";
@@ -1701,23 +1690,23 @@ function goToFondo5() {
   cancelPendingAnilloPickup();
   stopGuardianWalkAnimation();
   hidePanelOverlay();
-  pendingSpeechForGaston = false;
-  pendingSpeechForArdillaGuardiana = false;
-  pendingSpeechForBici = false;
-  pendingSpeechForTele = false;
-  pendingSpeechForFondo4Hotspot = false;
-  pendingSpeechForFondo5Hotspot = false;
-  pendingSpeechForFondo5CenterHotspot = false;
+    pendingSpeechForPresentador = false;
+    pendingSpeechForArdillaGuardiana = false;
+    pendingSpeechForBici = false;
+    pendingSpeechForTele = false;
+    pendingSpeechForFondo4Hotspot = false;
+    pendingSpeechForFondo5Hotspot = false;
+    pendingSpeechForFondo5CenterHotspot = false;
 
-  background.src = "images/fondo5.png";
+  background.src = "images/fondo5.webp";
   background.alt = "Fondo 5";
   setSceneBackgroundClass("in-fondo5");
 
-  snapGuardianToPosition(FONDO5_GUARDIAN_LEFT, INITIAL_GUARDIAN_BOTTOM);
-
-  gaston.style.display = "none";
-  if (tele) {
+  snapGuardianToPosition(FONDO5_GUARDIAN_LEFT, INITIAL_GUARDIAN_BOTTOM);  if (tele) {
     tele.style.display = "none";
+  }
+  if (presentador) {
+    presentador.style.display = "none";
   }
   if (ardillaGuardiana) {
     ardillaGuardiana.style.display = "none";
@@ -1781,23 +1770,23 @@ function goToFondo1() {
   cancelPendingAnilloPickup();
   stopGuardianWalkAnimation();
   hidePanelOverlay();
-  pendingSpeechForGaston = false;
-  pendingSpeechForArdillaGuardiana = false;
-  pendingSpeechForBici = false;
-  pendingSpeechForTele = false;
-  pendingSpeechForFondo4Hotspot = false;
-  pendingSpeechForFondo5Hotspot = false;
-  pendingSpeechForFondo5CenterHotspot = false;
+    pendingSpeechForPresentador = false;
+    pendingSpeechForArdillaGuardiana = false;
+    pendingSpeechForBici = false;
+    pendingSpeechForTele = false;
+    pendingSpeechForFondo4Hotspot = false;
+    pendingSpeechForFondo5Hotspot = false;
+    pendingSpeechForFondo5CenterHotspot = false;
 
   snapGuardianToInitialPosition();
 
-  background.src = "images/fondo1.png";
+  background.src = "images/fondo1.webp";
   background.alt = "Fondo 1";
-  setSceneBackgroundClass("in-fondo1");
-
-  gaston.style.display = "block";
-  if (tele) {
+  setSceneBackgroundClass("in-fondo1");  if (tele) {
     tele.style.display = "block";
+  }
+  if (presentador) {
+    presentador.style.display = "block";
   }
   if (ardillaGuardiana) {
     ardillaGuardiana.style.display = "block";
@@ -1852,18 +1841,19 @@ function goToFondo1() {
   prevArrow.style.display = "none";
 }
 
-if (gaston) {
-  gaston.addEventListener("click", () => {
+if (presentador) {
+  presentador.addEventListener("click", () => {
     closeSpeech();
-    pendingSpeechForGaston = true;
+    pendingSpeechForPresentador = true;
     pendingSpeechForArdillaGuardiana = false;
     pendingSpeechForBici = false;
     pendingSpeechForTele = false;
-    moveGuardianInFrontOf(gaston);
-    if (isGuardianBeside(gaston)) {
-      faceGuardianToward(gaston);
-      startDialogue(gaston, GASTON_DIALOGUE);
-      pendingSpeechForGaston = false;
+    moveGuardianInFrontOf(presentador, false, ARDILLA_DIALOGUE_GAP);
+    if (isGuardianBeside(presentador)) {
+      faceGuardianToward(presentador);
+      facePresentadorTowardGuardian();
+      startDialogue(presentador, PRESENTADOR_DIALOGUE);
+      pendingSpeechForPresentador = false;
     }
   });
 }
@@ -1872,7 +1862,7 @@ if (ardillaGuardiana) {
   ardillaGuardiana.addEventListener("click", () => {
     closeSpeech();
     pendingSpeechForArdillaGuardiana = true;
-    pendingSpeechForGaston = false;
+    pendingSpeechForPresentador = false;
     pendingSpeechForBici = false;
     pendingSpeechForTele = false;
     moveGuardianInFrontOf(ardillaGuardiana, false, ARDILLA_DIALOGUE_GAP);
@@ -1884,7 +1874,7 @@ if (ardillaGuardiana) {
         ARDILLA_GUARDIANA_DIALOGUE.prompt,
         ARDILLA_GUARDIANA_DIALOGUE.options
       );
-      pendingSpeechForArdillaGuardiana = false;
+    pendingSpeechForArdillaGuardiana = false;
     }
   });
 }
@@ -1893,14 +1883,14 @@ if (bici) {
   bici.addEventListener("click", () => {
     closeSpeech();
     pendingSpeechForBici = true;
-    pendingSpeechForGaston = false;
+    pendingSpeechForPresentador = false;
     pendingSpeechForArdillaGuardiana = false;
     pendingSpeechForTele = false;
     moveGuardianInFrontOf(bici, false);
     if (isGuardianBeside(bici)) {
       faceGuardianToward(bici);
       startBiciTravelDialogue();
-      pendingSpeechForBici = false;
+    pendingSpeechForBici = false;
     }
   });
 }
@@ -1909,14 +1899,14 @@ if (tele) {
   tele.addEventListener("click", () => {
     closeSpeech();
     pendingSpeechForTele = true;
+    pendingSpeechForPresentador = false;
     pendingSpeechForBici = false;
-    pendingSpeechForGaston = false;
     pendingSpeechForArdillaGuardiana = false;
     moveGuardianInFrontOf(tele, false);
     if (isGuardianBeside(tele)) {
       faceGuardianToward(tele);
       startTerminalDialogue(guardian, TELE_DIALOGUE, TELE_CORRECT_CODE, TELE_INPUT_BUBBLE_OFFSET);
-      pendingSpeechForTele = false;
+    pendingSpeechForTele = false;
     }
   });
 }
@@ -1924,9 +1914,9 @@ if (tele) {
 if (fondo3Hotspot) {
   fondo3Hotspot.addEventListener("click", () => {
     closeSpeech();
+    pendingSpeechForPresentador = false;
     pendingSpeechForTele = false;
     pendingSpeechForBici = false;
-    pendingSpeechForGaston = false;
     pendingSpeechForArdillaGuardiana = false;
     pendingSpeechForFondo4Hotspot = false;
     pendingSpeechForFondo5Hotspot = false;
@@ -1938,9 +1928,9 @@ if (fondo3Hotspot) {
 if (fondo3HotspotLeft) {
   fondo3HotspotLeft.addEventListener("click", () => {
     closeSpeech();
+    pendingSpeechForPresentador = false;
     pendingSpeechForTele = false;
     pendingSpeechForBici = false;
-    pendingSpeechForGaston = false;
     pendingSpeechForArdillaGuardiana = false;
     pendingSpeechForFondo4Hotspot = false;
     pendingSpeechForFondo5Hotspot = false;
@@ -1956,9 +1946,9 @@ if (fondo4HotspotLeftBottom) {
       return;
     }
     closeSpeech();
+    pendingSpeechForPresentador = false;
     pendingSpeechForTele = false;
     pendingSpeechForBici = false;
-    pendingSpeechForGaston = false;
     pendingSpeechForArdillaGuardiana = false;
     pendingSpeechForFondo5Hotspot = false;
     pendingSpeechForFondo4Hotspot = true;
@@ -1966,7 +1956,7 @@ if (fondo4HotspotLeftBottom) {
     if (isGuardianBeside(fondo4HotspotLeftBottom)) {
       faceGuardianToward(fondo4HotspotLeftBottom);
       startDialogue(guardian, FONDO4_HOTSPOT_DIALOGUE);
-      pendingSpeechForFondo4Hotspot = false;
+    pendingSpeechForFondo4Hotspot = false;
     }
   });
 }
@@ -1975,9 +1965,9 @@ if (fondo5HotspotLeft) {
   fondo5HotspotLeft.addEventListener("click", () => {
     if (hasUsedFondo5LeftHotspot) return;
     closeSpeech();
+    pendingSpeechForPresentador = false;
     pendingSpeechForTele = false;
     pendingSpeechForBici = false;
-    pendingSpeechForGaston = false;
     pendingSpeechForArdillaGuardiana = false;
     pendingSpeechForFondo4Hotspot = false;
     pendingSpeechForFondo5Hotspot = true;
@@ -1986,7 +1976,7 @@ if (fondo5HotspotLeft) {
     if (isGuardianBeside(fondo5HotspotLeft)) {
       faceGuardianToward(fondo5HotspotLeft);
       startDialogue(guardian, FONDO5_HOTSPOT_DIALOGUE);
-      pendingSpeechForFondo5Hotspot = false;
+    pendingSpeechForFondo5Hotspot = false;
     }
   });
 }
@@ -2000,9 +1990,9 @@ if (fondo5HotspotCenter) {
       return;
     }
     closeSpeech();
+    pendingSpeechForPresentador = false;
     pendingSpeechForTele = false;
     pendingSpeechForBici = false;
-    pendingSpeechForGaston = false;
     pendingSpeechForArdillaGuardiana = false;
     pendingSpeechForFondo4Hotspot = false;
     pendingSpeechForFondo5Hotspot = false;
@@ -2011,7 +2001,7 @@ if (fondo5HotspotCenter) {
     if (isGuardianBeside(fondo5HotspotCenter)) {
       faceGuardianToward(fondo5HotspotCenter);
       startDialogue(guardian, FONDO5_CENTER_HOTSPOT_DIALOGUE);
-      pendingSpeechForFondo5CenterHotspot = false;
+    pendingSpeechForFondo5CenterHotspot = false;
     }
   });
 }
@@ -2020,9 +2010,9 @@ if (fondo5HotspotRight) {
   fondo5HotspotRight.addEventListener("click", () => {
     if (hasBrocheinversion) return;
     closeSpeech();
+    pendingSpeechForPresentador = false;
     pendingSpeechForTele = false;
     pendingSpeechForBici = false;
-    pendingSpeechForGaston = false;
     pendingSpeechForArdillaGuardiana = false;
     pendingSpeechForFondo4Hotspot = false;
     pendingSpeechForFondo5Hotspot = false;
@@ -2033,7 +2023,7 @@ if (fondo5HotspotRight) {
     if (isGuardianBeside(fondo5HotspotRight)) {
       faceGuardianToward(fondo5HotspotRight);
       startDialogue(guardian, FONDO5_RIGHT_HOTSPOT_DIALOGUE);
-      pendingSpeechForFondo5RightHotspot = false;
+    pendingSpeechForFondo5RightHotspot = false;
     }
   });
 }
@@ -2042,9 +2032,9 @@ if (fondo2HotspotLeft) {
   fondo2HotspotLeft.addEventListener("click", () => {
     if (hasCompletedVendedoraTrade) return;
     closeSpeech();
+    pendingSpeechForPresentador = false;
     pendingSpeechForTele = false;
     pendingSpeechForBici = false;
-    pendingSpeechForGaston = false;
     pendingSpeechForArdillaGuardiana = false;
     if (vendedora) {
       vendedora.style.display = "block";
@@ -2203,8 +2193,8 @@ if (scene) {
     if (!isFondo2) return;
     if (!isClickInsideFondo2Hotspot(event.clientX, event.clientY)) return;
     closeSpeech();
+    pendingSpeechForPresentador = false;
     pendingSpeechForBici = false;
-    pendingSpeechForGaston = false;
     pendingSpeechForArdillaGuardiana = false;
     pendingSpeechForTele = false;
     pendingSpeechForFondo4Hotspot = false;
@@ -2313,10 +2303,11 @@ if (guardian) {
   guardian.addEventListener("transitionend", (event) => {
     if (event.propertyName !== "left") return;
     stopGuardianWalkAnimation();
-    if (pendingSpeechForGaston && isGuardianBeside(gaston)) {
-      faceGuardianToward(gaston);
-      startDialogue(gaston, GASTON_DIALOGUE);
-      pendingSpeechForGaston = false;
+    if (pendingSpeechForPresentador && presentador && isGuardianBeside(presentador)) {
+      faceGuardianToward(presentador);
+      facePresentadorTowardGuardian();
+      startDialogue(presentador, PRESENTADOR_DIALOGUE);
+      pendingSpeechForPresentador = false;
       pendingSpeechForArdillaGuardiana = false;
       pendingSpeechForBici = false;
       pendingSpeechForTele = false;
@@ -2335,8 +2326,8 @@ if (guardian) {
         ARDILLA_GUARDIANA_DIALOGUE.prompt,
         ARDILLA_GUARDIANA_DIALOGUE.options
       );
+      pendingSpeechForPresentador = false;
       pendingSpeechForArdillaGuardiana = false;
-      pendingSpeechForGaston = false;
       pendingSpeechForBici = false;
       pendingSpeechForTele = false;
       pendingSpeechForFondo4Hotspot = false;
@@ -2349,8 +2340,8 @@ if (guardian) {
     ) {
       faceGuardianToward(bici);
       startBiciTravelDialogue();
+      pendingSpeechForPresentador = false;
       pendingSpeechForBici = false;
-      pendingSpeechForGaston = false;
       pendingSpeechForArdillaGuardiana = false;
       pendingSpeechForTele = false;
       pendingSpeechForFondo4Hotspot = false;
@@ -2363,8 +2354,8 @@ if (guardian) {
     ) {
       faceGuardianToward(tele);
       startTerminalDialogue(guardian, TELE_DIALOGUE, TELE_CORRECT_CODE, TELE_INPUT_BUBBLE_OFFSET);
+      pendingSpeechForPresentador = false;
       pendingSpeechForTele = false;
-      pendingSpeechForGaston = false;
       pendingSpeechForArdillaGuardiana = false;
       pendingSpeechForBici = false;
       pendingSpeechForFondo4Hotspot = false;
@@ -2377,8 +2368,8 @@ if (guardian) {
     ) {
       faceGuardianToward(fondo4HotspotLeftBottom);
       startDialogue(guardian, FONDO4_HOTSPOT_DIALOGUE);
+      pendingSpeechForPresentador = false;
       pendingSpeechForFondo4Hotspot = false;
-      pendingSpeechForGaston = false;
       pendingSpeechForArdillaGuardiana = false;
       pendingSpeechForBici = false;
       pendingSpeechForTele = false;
@@ -2391,8 +2382,8 @@ if (guardian) {
     ) {
       faceGuardianToward(fondo5HotspotLeft);
       startDialogue(guardian, FONDO5_HOTSPOT_DIALOGUE);
+      pendingSpeechForPresentador = false;
       pendingSpeechForFondo5Hotspot = false;
-      pendingSpeechForGaston = false;
       pendingSpeechForArdillaGuardiana = false;
       pendingSpeechForBici = false;
       pendingSpeechForTele = false;
@@ -2406,9 +2397,9 @@ if (guardian) {
     ) {
       faceGuardianToward(fondo5HotspotRight);
       startDialogue(guardian, FONDO5_RIGHT_HOTSPOT_DIALOGUE);
+      pendingSpeechForPresentador = false;
       pendingSpeechForFondo5RightHotspot = false;
       pendingSpeechForFondo5CenterHotspot = false;
-      pendingSpeechForGaston = false;
       pendingSpeechForArdillaGuardiana = false;
       pendingSpeechForBici = false;
       pendingSpeechForTele = false;
@@ -2421,8 +2412,8 @@ if (guardian) {
     ) {
       faceGuardianToward(fondo5HotspotCenter);
       startDialogue(guardian, FONDO5_CENTER_HOTSPOT_DIALOGUE);
+      pendingSpeechForPresentador = false;
       pendingSpeechForFondo5CenterHotspot = false;
-      pendingSpeechForGaston = false;
       pendingSpeechForArdillaGuardiana = false;
       pendingSpeechForBici = false;
       pendingSpeechForTele = false;
@@ -2540,6 +2531,7 @@ window.addEventListener("resize", () => {
   }
 });
 if (scene && sceneViewport) {
+  warmupGameAssets();
   preloadGuardianWalkFrames();
   stopGuardianWalkAnimation();
   layoutScene();
