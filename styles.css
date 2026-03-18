@@ -90,6 +90,9 @@
         height: 45%;
         z-index: 4;
       }
+      #scene.in-fondo5 #presentador {
+        height: 45%;
+      }
       #presentador {
         height: var(--character-height);
         width: auto;

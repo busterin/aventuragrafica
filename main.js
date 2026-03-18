@@ -79,6 +79,9 @@ const PRESENTADOR_DIALOGUE = [
   "El objetivo es recorrer esta zona delimitada de la ciudad donde encontrarás distintos objetos como una factura o una llave, que os irán guiando hasta encontrar una sala oculta, la sala del tesoro.",
   "Tenéis que ser los primeros en lograr entrar para hacernos con la victoria. ¡Un reto digno de los Guardianes del Tesoro!"
 ];
+const PRESENTADOR_FINAL_DIALOGUE = [
+  "¡Buen trabajo, guardianes! Habéis finalizado la Competición Financiera antes que nadie. Os esperamos en la Competición del año que viene."
+];
 const ARDILLA_GUARDIANA_DIALOGUE = {
   prompt: "¿Necesitas información?",
   options: [
@@ -290,6 +293,7 @@ let pendingTerminalSuccessDialogue = false;
 let pendingTerminalSuccessAnchor = null;
 let pendingBrocheinversionFromFondo5Right = false;
 let pendingPanelCompletionHeroLine = false;
+let pendingEndingAfterPresentadorDialogue = false;
 let hintModalMode = "prompt";
 let confettiCanvas = null;
 let confettiContext = null;
@@ -741,6 +745,19 @@ function facePresentadorTowardGuardian() {
   presentador.style.transform = `translateX(-50%) scaleX(${scale})`;
 }
 
+function placePresentadorAtFondo5LeftHotspotRight() {
+  if (!presentador || !fondo5HotspotLeft) return;
+  const leftHotspotRect = getWorldRect(fondo5HotspotLeft);
+  const presentadorWidth = presentador.offsetWidth || BASE_WIDTH * 0.12;
+  const desiredCenterX = Math.min(
+    BASE_WIDTH - presentadorWidth * 0.5,
+    leftHotspotRect.right + presentadorWidth * 0.68
+  );
+  presentador.style.left = `${(desiredCenterX / BASE_WIDTH) * 100}%`;
+  presentador.style.bottom = INITIAL_GUARDIAN_BOTTOM;
+  presentador.style.transform = "translateX(-50%) scaleX(-1)";
+}
+
 function moveGuardianTo(targetWorldX) {
   const guardianWidth = guardian.offsetWidth;
   const currentLeft = guardian.offsetLeft;
@@ -971,6 +988,23 @@ function startPanelCompletionSequence() {
   startDialogue(guardian, ["¡Lo hemos conseguido!"]);
 }
 
+function startPresentadorFinalSequence() {
+  if (!isInFondo5()) {
+    showEndingOverlay();
+    return;
+  }
+  if (!presentador) {
+    showEndingOverlay();
+    return;
+  }
+  presentador.style.display = "block";
+  placePresentadorAtFondo5LeftHotspotRight();
+  facePresentadorTowardGuardian();
+  pendingEndingAfterPresentadorDialogue = true;
+  startConfettiCelebration();
+  startDialogue(presentador, PRESENTADOR_FINAL_DIALOGUE);
+}
+
 function completeVendedoraTrade() {
   hasCompletedVendedoraTrade = true;
   pendingVendedoraDismissAfterDialogue = false;
@@ -1012,7 +1046,12 @@ function advanceActiveDialogue() {
     if (pendingPanelCompletionHeroLine && activeDialogue.anchor === guardian) {
       pendingPanelCompletionHeroLine = false;
       closeSpeech();
-      startConfettiCelebration();
+      startPresentadorFinalSequence();
+      return;
+    }
+    if (pendingEndingAfterPresentadorDialogue && activeDialogue.anchor === presentador) {
+      pendingEndingAfterPresentadorDialogue = false;
+      closeSpeech();
       showEndingOverlay();
       return;
     }
@@ -1452,6 +1491,7 @@ function goToFondo2() {
   cancelPendingAnilloPickup();
   stopGuardianWalkAnimation();
   hidePanelOverlay();
+    pendingEndingAfterPresentadorDialogue = false;
     pendingSpeechForPresentador = false;
     pendingSpeechForArdillaGuardiana = false;
     pendingSpeechForBici = false;
@@ -1530,6 +1570,7 @@ function goToFondo3() {
   cancelPendingAnilloPickup();
   stopGuardianWalkAnimation();
   hidePanelOverlay();
+    pendingEndingAfterPresentadorDialogue = false;
     pendingSpeechForPresentador = false;
     pendingSpeechForArdillaGuardiana = false;
     pendingSpeechForBici = false;
@@ -1592,8 +1633,8 @@ function goToFondo3() {
     brocheinversionWorld.style.pointerEvents = "none";
   }
   if (brocheinteresWorld) {
-    brocheinteresWorld.style.display = "block";
-    brocheinteresWorld.style.pointerEvents = "auto";
+    brocheinteresWorld.style.display = hasBrocheinteres ? "none" : "block";
+    brocheinteresWorld.style.pointerEvents = hasBrocheinteres ? "none" : "auto";
   }
   anilloWorld.style.display = "none";
   inventory.style.display = "block";
@@ -1611,6 +1652,7 @@ function goToFondo4(fromFondo5 = false) {
   cancelPendingAnilloPickup();
   stopGuardianWalkAnimation();
   hidePanelOverlay();
+    pendingEndingAfterPresentadorDialogue = false;
     pendingSpeechForPresentador = false;
     pendingSpeechForArdillaGuardiana = false;
     pendingSpeechForBici = false;
@@ -1690,6 +1732,7 @@ function goToFondo5() {
   cancelPendingAnilloPickup();
   stopGuardianWalkAnimation();
   hidePanelOverlay();
+    pendingEndingAfterPresentadorDialogue = false;
     pendingSpeechForPresentador = false;
     pendingSpeechForArdillaGuardiana = false;
     pendingSpeechForBici = false;
@@ -1770,6 +1813,7 @@ function goToFondo1() {
   cancelPendingAnilloPickup();
   stopGuardianWalkAnimation();
   hidePanelOverlay();
+    pendingEndingAfterPresentadorDialogue = false;
     pendingSpeechForPresentador = false;
     pendingSpeechForArdillaGuardiana = false;
     pendingSpeechForBici = false;
