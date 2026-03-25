@@ -86,11 +86,11 @@ const ARDILLA_GUARDIANA_DIALOGUE_FONDO1 = {
   prompt: "¿Necesitas información?",
   options: [
     {
-      label: "¿Que es una factura?",
+      label: "¿Qué es una factura?",
       response: "Una factura es el documento legal que certifica una compraventa, detallando los productos o servicios, sus precios y los impuestos aplicados para justificar el gasto y el cobro."
     },
     {
-      label: "¿Que es un ticket?",
+      label: "¿Qué es un ticket?",
       response: "El ticket es un comprobante de pago simplificado y anónimo para el consumidor final, ideal para compras rápidas y gestionar garantías. A diferencia de la factura, no requiere los datos fiscales del comprador, lo que lo hace ágil pero insuficiente para que una empresa pueda deducir impuestos."
     }
   ]
@@ -99,15 +99,15 @@ const ARDILLA_GUARDIANA_DIALOGUE_FONDO3 = {
   prompt: "¿Necesitas información?",
   options: [
     {
-      label: "¿Que es un recibo (de la luz, del gas...)?",
+      label: "¿Qué es un recibo (de la luz, del gas...)?",
       response: "Un recibo es el documento oficial donde una empresa detalla el consumo que realizaste de un servicio durante un periodo específico y el dinero total que debes pagar antes de una fecha límite."
     },
     {
-      label: "¿Que son los intereses?",
+      label: "¿Qué son los intereses?",
       response: "Es el coste que se paga por utilizar dinero ajeno o la ganancia que se recibe por prestarlo o invertirlo. Se define como el precio del tiempo y del riesgo, calculado habitualmente como un porcentaje del capital original que determina cuánto crece una deuda o un ahorro en un periodo determinado."
     },
     {
-      label: "¿Que es una inversión?",
+      label: "¿Qué es una inversión?",
       response: "Invertir es emplear hoy tu dinero en un activo (como acciones, negocios o propiedades) con la expectativa de obtener un beneficio o ganancia en el futuro, aceptando siempre un nivel de riesgo."
     }
   ]
@@ -120,13 +120,13 @@ const TELE_DIALOGUE = [
 const TELE_CORRECT_CODE = "1031";
 const TELE_SUCCESS_DIALOGUE = ["Se ha abierto un compartimento donde se ocultaba una llave y una moneda."];
 const TELE_FAIL_DIALOGUE = ["No ha pasado nada."];
-const HINT_MODAL_PROMPT_TEXT = "Aquí la base de los Guardianes ¿Necesitas una pista para poder avanzar en tu aventura?";
+const HINT_MODAL_PROMPT_TEXT = "Aquí está la base de los Guardianes. ¿Necesitas una pista para poder avanzar en tu aventura?";
 const HINTS_BY_FONDO = {
   fondo1: "Estás en el punto de partida. Aquí se esconde un valioso objeto y una terminal que te pide un código. Para descifrar dicho código tendrás que ir a otro lugar y el tiempo la solución te dará.",
   fondo2: "Una alegre vendedora está deseando comerciar contigo. ¿No la has visto? Pulsa en los puestos del mercado. Si le das un objeto de valor, te dará algo que necesitas. ¿No has encontrado nada valioso en la localización de inicio?",
-  fondo3: "¡Bonito parque! Aquí se ocultan dos objetos que necesitarás en tu aventura. También se oculta una pista necesaría para la terminal del punto de inicio.",
-  fondo4: "¡Pocas pistas te puedo dar aquí! Necesitas abrir esa puerta de la izquierda. Tienes que conseguir una llave que, cómo ya habrás imaginado, no se encuentra aquí.",
-  fondo5: "¡Te encuentras en la sala del tesoro! Estás cerca de acabar. En una de las estanterías se esconde un objeto que necesitas y en la otra tienes que usar otro objeto, que deberías haber conseguido antes. Al usarlo, obtendrás otro nuevo. ¡Cuantos objetos, que lío!\nLa luz de esta sala es muy especial, quizás eso te permita leer textos ocultos ¿Tienes algún documento?\nY para acabar te encontrarás con el panel final. Tienes cuatro objetos para cuatro huecos. ¿Y cuál es el orden? Lee las descripciones de los objetos y lo descubrirás.\n¡Buena suerte!"
+  fondo3: "¡Bonito parque! Aquí se ocultan dos objetos que necesitarás en tu aventura. También se oculta una pista necesaria para la terminal del punto de inicio.",
+  fondo4: "¡Pocas pistas te puedo dar aquí! Necesitas abrir esa puerta de la izquierda. Tienes que conseguir una llave que, como ya habrás imaginado, no se encuentra aquí.",
+  fondo5: "¡Te encuentras en la sala del tesoro! Estás cerca de acabar. En una de las estanterías se esconde un objeto que necesitas y en la otra tienes que usar otro objeto, que deberías haber conseguido antes. Al usarlo, obtendrás otro nuevo. ¡Cuántos objetos, qué lío!\nLa luz de esta sala es muy especial, quizás eso te permita leer textos ocultos. ¿Tienes algún documento?\nY para acabar te encontrarás con el panel final. Tienes cuatro objetos para cuatro huecos. ¿Y cuál es el orden? Lee las descripciones de los objetos y lo descubrirás.\n¡Buena suerte!"
 };
 const TELE_INPUT_BUBBLE_OFFSET = 75;
 const TELE_RESULT_BUBBLE_OFFSET = -20;
@@ -135,13 +135,13 @@ const FONDO2_HOTSPOT_DIALOGUE = [
 ];
 const VENDEDORA_DIALOGUE = [
   "¡Hola!",
-  "Puede que tenga una de esas facturas que buscas. Podría dartela a cambio de algo de valor."
+  "Puede que tenga una de esas facturas que buscas. Podría dártela a cambio de algo de valor."
 ];
 const VENDEDORA_PAYMENT_DIALOGUE = [
   "¡Me encanta! Esto servirá como pago por la factura. Ya estás más cerca de completar la Competición."
 ];
 const FONDO3_HOTSPOT_DIALOGUE = [
-  "El reloj parece estar parado a proposito. La hora que marca son las diez horas y treinta y un minutos."
+  "El reloj parece estar parado a propósito. La hora que marca son las diez horas y treinta y un minutos."
 ];
 const FONDO4_HOTSPOT_DIALOGUE = [
   "Parece que está cerrada con llave. ¿Será esta la Sala del Tesoro?"
@@ -157,7 +157,7 @@ const FONDO5_PANEL_READY_BUBBLE_OFFSET = 72;
 const FONDO5_CENTER_HOTSPOT_DIALOGUE = [
   "El cofre se ha abierto un poco pero aún no del todo. Sin embargo se ha iluminado una placa que dice \"La luz nos muestra lo que antes se ocultaba\""
 ];
-const FONDO5_RIGHT_HOTSPOT_DIALOGUE = ["¿Que es esto?"];
+const FONDO5_RIGHT_HOTSPOT_DIALOGUE = ["¿Qué es esto?"];
 const ANILLO_MODAL = {
   imageSrc: "images/anillo.webp",
   imageAlt: "Anillo ampliado",
@@ -176,7 +176,7 @@ const FACTURA_MODAL_FONDO5 = {
 const LLAVE_MODAL = {
   imageSrc: "images/llave.webp",
   imageAlt: "Llave ampliada",
-  textHtml: "¿Qué abrira esta llave?"
+  textHtml: "¿Qué abrirá esta llave?"
 };
 const BREBAJE_MODAL = {
   imageSrc: "images/brebaje.webp",
@@ -195,13 +195,13 @@ const TARJETA_MODAL = {
 };
 const BROCHEINVERSION_MODAL = {
   imageSrc: "images/brocheinversion.webp",
-  imageAlt: "Broche inversion ampliado",
+  imageAlt: "Broche inversión ampliado",
   textHtml: "Un broche de la Competición Financiera. Representa el concepto de inversión: Invertir es emplear hoy tu dinero en un activo (como acciones, negocios o propiedades) con la expectativa de obtener un beneficio o ganancia en el futuro, aceptando siempre un nivel de riesgo. En la parte trasera tiene grabada una C."
 };
 const BROCHEINTERES_MODAL = {
   imageSrc: "images/brocheinteres.webp",
-  imageAlt: "Broche interes ampliado",
-  textHtml: "Un broche de la Competición Financiera. Representa el concepto de interés: el interés es el coste que se paga por utilizar dinero ajeno o la ganancia que se recibe por prestarlo o invertirlo. Se define como el precio del tiempo y del riesgo, calculado habitualmente como un porcentaje del capital original que determina cuánto crece una deuda o un ahorro en un periodo determinado. Tiene grabado una D."
+  imageAlt: "Broche interés ampliado",
+  textHtml: "Un broche de la Competición Financiera. Representa el concepto de interés: el interés es el coste que se paga por utilizar dinero ajeno o la ganancia que se recibe por prestarlo o invertirlo. Se define como el precio del tiempo y del riesgo, calculado habitualmente como un porcentaje del capital original que determina cuánto crece una deuda o un ahorro en un periodo determinado. Tiene grabada una D."
 };
 const ANILLO_OBTAINED_MODAL = {
   imageSrc: "images/anillo.webp",
@@ -231,16 +231,16 @@ const MONEDA_OBTAINED_MODAL = {
 const TARJETA_OBTAINED_MODAL = {
   imageSrc: "images/tarjeta.webp",
   imageAlt: "Tarjeta obtenida",
-  textHtml: "¡Has obtenido tarjeta de crédito!"
+  textHtml: "¡Has obtenido una tarjeta de crédito!"
 };
 const BROCHEINVERSION_OBTAINED_MODAL = {
   imageSrc: "images/brocheinversion.webp",
-  imageAlt: "Broche inversion obtenido",
+  imageAlt: "Broche inversión obtenido",
   textHtml: "¡Has obtenido un broche de inversión!"
 };
 const BROCHEINTERES_OBTAINED_MODAL = {
   imageSrc: "images/brocheinteres.webp",
-  imageAlt: "Broche interes obtenido",
+  imageAlt: "Broche interés obtenido",
   textHtml: "¡Has obtenido un broche de interés!"
 };
 const INITIAL_GUARDIAN_LEFT =
